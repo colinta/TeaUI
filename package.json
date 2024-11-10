@@ -1,57 +1,7 @@
 {
-  "name": "wretched",
-  "description": "A high-level terminal UI library for Node",
-  "author": "Colin T.A. Gray <colinta@colinta.com>",
-  "contributors": [
-    "Shawn Chen <meishangchen@gmail.com>",
-    "Christopher Jeffrey (via Blessed)"
-  ],
-  "version": "1.0.13",
-  "license": "MIT",
-  "preferGlobal": false,
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/wretched-tui/wretched.git"
-  },
-  "homepage": "https://github.com/wretched-tui/wretched",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist/"
-  ],
-  "bugs": {
-    "url": "http://github.com/wretched-tui/wretched/issues"
-  },
-  "scripts": {
-    "prepublishOnly": "yarn build && rm -rf dist/demos/",
-    "postpublish": "yarn run gittag",
-    "gittag": "git tag $(node -e 'process.stdout.write(require(\"./package\").version)')",
-    "clean": "rm -rf dist/",
-    "cp-usr": "mkdir -p dist/sys/usr/ && cp lib/sys/usr/* dist/sys/usr/",
-    "build": "yarn clean && yarn tsc && yarn cp-usr",
-    "checksum": ". scripts/check.sh lib",
-    "demo": "yarn checksum && cd demos/ && yarn demo",
-    "qdemo": "cd demos/ && yarn demo",
-    "reset": "yarn checksum && cd demos/ && yarn demo reset"
-  },
-  "keywords": [
-    "curses",
-    "tui",
-    "terminal",
-    "terminal-ui"
-  ],
-  "tags": [
-    "curses",
-    "tui",
-    "terminal"
-  ],
-  "engines": {
-    "node": ">= 18.12.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20.3.2",
-    "prettier": "^3.3.3",
-    "ssed": "^1.5.0",
-    "typescript": "^5.4.3"
-  }
+	"devDependencies": {
+		"prettier": "^3.3.3",
+		"typescript": "^5.6.3",
+		"@types/node": "^20.3.2"
+	}
 }

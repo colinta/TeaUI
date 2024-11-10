@@ -1,0 +1,8 @@
+{
+  "extends": "@wretched-tui/shared/tsconfig.json",
+  "include": ["lib"],
+  "exclude": ["bin/", ".dist/", "test/"],
+  "compilerOptions": {
+    "outDir": ".dist"
+  }
+}

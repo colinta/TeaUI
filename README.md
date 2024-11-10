@@ -1,6 +1,6 @@
 # Wretched
 
-I wanted a curses-style fullscreen application framework that could be powered by React. Check out https://github.com/wretched-tui/wretched-react for the React renderer for Wretched.
+I wanted a curses-style fullscreen application framework that could be powered by React. Check out https://github.com/colinta/wretched-react for the React renderer for Wretched.
 
 ### colors.ts
 
@@ -8,7 +8,7 @@ I wanted a curses-style fullscreen application framework that could be powered b
 bun demo colors.ts
 ```
 
-![example of output](https://raw.githubusercontent.com/wretched-tui/wretched/9afe0235a7191a4b47568ef4e631ac1c3ab5829b/readme/colors.png)
+![example of output](https://raw.githubusercontent.com/colinta/wretched/9afe0235a7191a4b47568ef4e631ac1c3ab5829b/readme/colors.png)
 
 ### inputs.ts
 
@@ -16,12 +16,12 @@ bun demo colors.ts
 bun demo inputs.ts
 ```
 
-![example of output](https://raw.githubusercontent.com/wretched-tui/wretched/9afe0235a7191a4b47568ef4e631ac1c3ab5829b/readme/inputs.png)
+![example of output](https://raw.githubusercontent.com/colinta/wretched/9afe0235a7191a4b47568ef4e631ac1c3ab5829b/readme/inputs.png)
 
 ### demo code
 
 ```tsx
-import {Screen, Box, Stack, Text, Button, interceptConsoleLog} from 'wretched'
+import {Screen, Box, Stack, Text, Button, interceptConsoleLog} from '@wretched-tui/wretched'
 
 // Recommended:
 interceptConsoleLog()

@@ -1,0 +1,57 @@
+{
+  "name": "@wretched-tui/react",
+  "description": "React Reconciler and renderer for Wretched",
+  "author": "Colin T.A. Gray <colinta@colinta.com>",
+  "contributors": [
+    "Shawn Chen <meishangchen@gmail.com>"
+  ],
+  "version": "1.1.0",
+  "license": "MIT",
+  "preferGlobal": false,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/colinta/wretched.git"
+  },
+  "homepage": "https://github.com/colinta/wretched",
+  "main": ".dist/index.js",
+  "types": ".dist/index.d.ts",
+  "files": [
+    ".dist/"
+  ],
+  "bugs": {
+    "url": "http://github.com/colinta/wretched/issues"
+  },
+  "scripts": {
+    "prepublishOnly": "pnpm clean && pnpm tsc",
+    "clean": "rm -rf .dist/",
+    "build": "pnpm clean && pnpm tsc"
+  },
+  "keywords": [
+    "react",
+    "curses",
+    "tui",
+    "terminal",
+    "terminal-ui"
+  ],
+  "tags": [
+    "react",
+    "curses",
+    "tui",
+    "terminal"
+  ],
+  "engines": {
+    "node": ">= 18.12.0"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-reconciler": "^0.29.0"
+  },
+  "dependencies": {
+    "@wretched-tui/wretched": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.39",
+    "@types/react-reconciler": "^0.28.8",
+    "@wretched-tui/shared": "workspace:*"
+  }
+}

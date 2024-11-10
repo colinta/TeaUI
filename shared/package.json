@@ -1,0 +1,12 @@
+{
+  "name": "@wretched-tui/shared",
+  "main": "check.js",
+  "version": "0.0.1",
+  "files": [
+    "check.js",
+    "tsconfig.json"
+  ],
+  "bin": {
+    "check": "./check.js"
+  }
+}

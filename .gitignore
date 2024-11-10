@@ -1,5 +1,5 @@
 node_modules/
-dist/
+.dist/
 /lib/test.ts
 /demos/node_modules/
 .sum
