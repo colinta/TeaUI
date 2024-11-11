@@ -52,10 +52,13 @@ importers:
       '@wretched-tui/wretched':
         specifier: workspace:*
         version: link:../../packages/wretched
-      preact:
-        specifier: ^10.24.3
-        version: 10.24.3
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
     devDependencies:
+      '@types/react':
+        specifier: ^18.2.39
+        version: 18.3.12
       '@wretched-tui/shared':
         specifier: workspace:*
         version: link:../../shared

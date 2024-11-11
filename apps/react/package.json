@@ -10,11 +10,12 @@
   },
   "private": true,
   "dependencies": {
-    "preact": "^10.24.3",
+    "@wretched-tui/react": "workspace:*",
     "@wretched-tui/wretched": "workspace:*",
-    "@wretched-tui/react": "workspace:*"
+    "react": "^18.3.1"
   },
   "devDependencies": {
+    "@types/react": "^18.2.39",
     "@wretched-tui/shared": "workspace:*"
   }
 }
