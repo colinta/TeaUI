@@ -73,7 +73,7 @@ Tput.prototype.setup = function () {
     if (this.termcap) {
       try {
         this.injectTermcap()
-      } catch (e) {
+      } catch (_e) {
         if (this.debug) throw e
         this.error = new Error('Termcap parse error.')
         this._useInternalCap(this.terminal)
@@ -81,13 +81,13 @@ Tput.prototype.setup = function () {
     } else {
       try {
         this.injectTerminfo()
-      } catch (e) {
+      } catch (_e) {
         if (this.debug) throw e
         this.error = new Error('Terminfo parse error.')
         this._useInternalInfo(this.terminal)
       }
     }
-  } catch (e) {
+  } catch (_e) {
     // If there was an error, fallback
     // to an internally stored terminfo/cap.
     if (this.debug) throw e
@@ -216,7 +216,7 @@ Tput._tprefix = Tput.prototype._tprefix = function (prefix, term, soft) {
     try {
       fs.statSync(file)
       return file
-    } catch (e) {}
+    } catch (_e) {}
 
     ch = word[0].charCodeAt(0).toString(16)
     if (ch.length < 2) ch = '0' + ch
@@ -225,7 +225,7 @@ Tput._tprefix = Tput.prototype._tprefix = function (prefix, term, soft) {
     try {
       fs.statSync(file)
       return file
-    } catch (e) {}
+    } catch (_e) {}
   }
 
   if (!term) {
@@ -239,7 +239,7 @@ Tput._tprefix = Tput.prototype._tprefix = function (prefix, term, soft) {
       if (!dir.length) {
         return prefix
       }
-    } catch (e) {}
+    } catch (_e) {}
     return
   }
 
@@ -251,7 +251,7 @@ Tput._tprefix = Tput.prototype._tprefix = function (prefix, term, soft) {
   if (soft) {
     try {
       list = fs.readdirSync(dir)
-    } catch (e) {
+    } catch (_e) {
       return
     }
 
@@ -272,7 +272,7 @@ Tput._tprefix = Tput.prototype._tprefix = function (prefix, term, soft) {
   try {
     fs.statSync(file)
     return file
-  } catch (e) {}
+  } catch (_e) {}
 }
 
 /**
@@ -409,7 +409,7 @@ Tput.prototype.parseTerminfo = function (data, file) {
     if (i < l - 1) {
       try {
         extended = this.parseExtended(data.slice(i))
-      } catch (e) {
+      } catch (_e) {
         if (this.debug) {
           throw e
         }
@@ -732,6 +732,7 @@ Tput.prototype._compile = function (info, key, str) {
       str = fs.readFileSync(str, 'utf8')
       if (this.debug) {
         v = ('return ' + JSON.stringify(str) + ';')
+          // eslint-disable-next-line no-control-regex
           .replace(/\x1b/g, '\\x1b')
           .replace(/\r/g, '\\r')
           .replace(/\n/g, '\\n')
@@ -740,7 +741,7 @@ Tput.prototype._compile = function (info, key, str) {
       return function () {
         return str
       }
-    } catch (e) {
+    } catch (_e) {
       return noop
     }
   }
@@ -831,7 +832,7 @@ Tput.prototype._compile = function (info, key, str) {
     // '\n' -> \n
     // '\r' -> \r
     // '\0' -> \200 (special case)
-    if (read(/^\\([eEnlrtbfs\^\\,:0]|.)/, true)) {
+    if (read(/^\\([eEnlrtbfs^\\,:0]|.)/, true)) {
       switch (ch) {
         case 'e':
         case 'E':
@@ -887,7 +888,7 @@ Tput.prototype._compile = function (info, key, str) {
 
     // $<5> -> padding
     // e.g. flash_screen: '\u001b[?5h$<100/>\u001b[?5l',
-    if (read(/^\$<(\d+)([*\/]{0,2})>/, true)) {
+    if (read(/^\$<(\d+)([*/]{0,2})>/, true)) {
       if (this.padding) print(cap[0])
       continue
     }
@@ -989,7 +990,7 @@ Tput.prototype._compile = function (info, key, str) {
     //   bit operations (AND, OR and exclusive-OR): push(pop() op pop())
     // %= %> %<
     //   logical operations: push(pop() op pop())
-    if (read(/^%([+\-*\/m&|\^=><])/)) {
+    if (read(/^%([+\-*/m&|^=><])/)) {
       if (ch === '=') ch = '==='
       else if (ch === 'm') ch = '%'
       expr(
@@ -1142,6 +1143,7 @@ Tput.prototype._compile = function (info, key, str) {
 
   if (this.debug) {
     v = code
+      // eslint-disable-next-line no-control-regex
       .replace(/\x1b/g, '\\x1b')
       .replace(/\r/g, '\\r')
       .replace(/\n/g, '\\n')
@@ -1155,13 +1157,14 @@ Tput.prototype._compile = function (info, key, str) {
     return this.printf || ~code.indexOf('sprintf(')
       ? new Function('sprintf, params', code).bind(null, sprintf)
       : new Function('params', code)
-  } catch (e) {
+  } catch (_e) {
     console.error('')
     console.error('Error on:', tkey)
     console.error(JSON.stringify(str))
     console.error('')
     console.error(code.replace(/(,|;)/g, '$1\n'))
-    console.error(e)
+    console.error(_e)
+    // eslint-disable-next-line no-control-regex
     e.stack = e.stack.replace(/\x1b/g, '\\x1b')
     throw e
   }
@@ -1179,7 +1182,7 @@ Tput.prototype._print = function (code, print, done) {
     return done()
   }
 
-  var parts = code.split(/(?=\$<[\d.]+[*\/]{0,2}>)/),
+  var parts = code.split(/(?=\$<[\d.]+[*/]{0,2}>)/),
     i = 0
 
   ;(function next() {
@@ -1188,7 +1191,7 @@ Tput.prototype._print = function (code, print, done) {
     }
 
     var part = parts[i++],
-      padding = /^\$<([\d.]+)([*\/]{0,2})>/.exec(part),
+      padding = /^\$<([\d.]+)([*/]{0,2})>/.exec(part),
       amount,
       suffix
     // , affect;
@@ -2213,7 +2216,7 @@ Tput.prototype.GetConsoleCP = function () {
     //   encoding: 'ascii',
     //   timeout: 1500
     // });
-  } catch (e) {}
+  } catch (_e) {}
 
   ccp = /\d+/.exec(ccp)
 
@@ -2259,7 +2262,7 @@ export function tryRead(file) {
   file = path.resolve.apply(path, arguments)
   try {
     return fs.readFileSync(file, 'utf8')
-  } catch (e) {
+  } catch (_e) {
     return ''
   }
 }

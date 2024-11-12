@@ -209,7 +209,7 @@ const storybox = Stack.down([
 const tree = new Tree({
   titleView: new Text({text: 'Title view'}),
   data: [{path: '1'}, {path: '2'}, {path: '3'}],
-  render({path}, index) {
+  render({path}) {
     return new Text({text: `Item ${path}`})
   },
   getChildren({path}) {

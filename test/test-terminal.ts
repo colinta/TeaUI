@@ -3,8 +3,8 @@ import type {Color} from '../lib/Color'
 
 export class TestTerminal implements SGRTerminal {
   chars = ''
-  setForeground(fg: Color) {}
-  setBackground(bg: Color) {}
+  setForeground(_fg: Color) {}
+  setBackground(_bg: Color) {}
   move(x: number, y: number) {
     this.x = x
     this.y = y

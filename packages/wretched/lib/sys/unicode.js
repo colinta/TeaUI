@@ -72,6 +72,7 @@ export function charWidth(str) {
   }
 
   // added: ANSI formatter support
+  // eslint-disable-next-line no-control-regex
   if (!str.length || str === '\x1b' || str.match(/^\x1b\[[\d;]*m$/)) {
     return 0
   }
@@ -473,10 +474,11 @@ export function printableChars(str) {
 
   let isFirst = true
   const chars = []
+  // eslint-disable-next-line no-control-regex
   for (const input of str.split(/\x1b\[/)) {
     const match = input.match(/^([\d;]*m)((.|[\n\r])*)$/m)
     if (match && !isFirst) {
-      chars.push(`\x1b\[${match[1]}`)
+      chars.push(`\x1b[${match[1]}`)
       chars.push(...graphemes(match[2]))
     } else {
       chars.push(...graphemes(input))
@@ -488,6 +490,7 @@ export function printableChars(str) {
 }
 
 export function removeAnsi(input) {
+  // eslint-disable-next-line no-control-regex
   return input.replaceAll(/\x1b\[[\d;]*m/g, '')
 }
 
