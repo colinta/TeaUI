@@ -28,7 +28,6 @@ export class Checkbox extends Container {
   #hotKey?: HotKey
   #onChange: StyleProps['onChange']
   #textView: Text
-  #contentView?: View
 
   constructor(props: Props) {
     super(props)

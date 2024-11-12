@@ -152,7 +152,7 @@ export class Button extends Container {
       viewport.write(left, new Point(leftX, offset.y + y), textStyle)
       viewport.write(right, new Point(rightX, offset.y + y), textStyle)
     }
-    viewport.clipped(new Rect(offset, naturalSize), inside => {
+    viewport.clipped(new Rect(offset, naturalSize), textStyle, inside => {
       super.render(inside)
     })
   }

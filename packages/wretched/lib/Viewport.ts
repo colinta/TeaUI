@@ -152,10 +152,10 @@ export class Viewport {
    */
   paint(defaultStyle: Style, region?: Point | Rect) {
     if (region instanceof Point) {
-      this.write(' ', region, defaultStyle)
+      this.write(BG_DRAW, region, defaultStyle)
     } else {
       region ??= this.visibleRect
-      region.forEachPoint(pt => this.paint(defaultStyle, pt))
+      region.forEachPoint(pt => this.write(BG_DRAW, pt, defaultStyle))
     }
   }
 

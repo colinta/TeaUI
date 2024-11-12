@@ -162,7 +162,7 @@ export class Text extends View {
       lines = this.#lines
     }
 
-    const startingStyle: Style = this.theme.text().merge(this.#style)
+    const startingStyle: Style = this.#style ?? Style.NONE
     viewport.usingPen(startingStyle, pen => {
       const point = new Point(0, 0).mutableCopy()
       for (let [line, lineWidth] of lines) {

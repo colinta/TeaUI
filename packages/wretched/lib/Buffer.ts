@@ -51,7 +51,12 @@ export class Buffer implements Terminal {
       const prev = line.get(x)
       if (prev?.char === BG_DRAW) {
         const {foreground, background} = prev.style
-        style = style.merge({foreground, background})
+        if (style.foreground === undefined) {
+          style = style.merge({foreground})
+        }
+        if (style.background === undefined) {
+          style = style.merge({background})
+        }
       }
 
       const leftChar = line.get(x - 1)
