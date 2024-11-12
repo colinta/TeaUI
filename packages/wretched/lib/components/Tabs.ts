@@ -298,6 +298,16 @@ export class Tabs extends Container {
       ~~separatorLocation[1] + xLeft,
     ]
 
+    viewport.paint(
+      new Style({
+        background: this.theme.ui().background,
+      }),
+      new Rect(
+        [separatorStart, 0],
+        [separatorStop - separatorStart, tabHeight + 1],
+      ),
+    )
+
     separatorWidths.forEach((separatorWidth, index) => {
       const tab = this.tabs.at(index)
       const isHover = tab?.isHover ?? false
