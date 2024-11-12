@@ -1,115 +1,117 @@
-#!/bin/env node
-const fs = require('fs');
-const path = require('path');
-const crypto = require('crypto');
-const { execSync } = require('child_process');
-const { promisify } = require('util');
+import fs from 'fs'
+import path from 'path'
+import crypto from 'crypto'
+import {promisify} from 'util'
+import {execSync} from 'child_process'
 
-const readFileAsync = promisify(fs.readFile);
-const writeFileAsync = promisify(fs.writeFile);
-const unlinkAsync = promisify(fs.unlink);
+const readFile = promisify(fs.readFile)
+const readDir = promisify(fs.readdir)
+const writeFile = promisify(fs.writeFile)
+const unlink = promisify(fs.unlink)
+const stat = promisify(fs.stat)
 
-function generateFileHash(filePath) {
-  const fileContent = fs.readFileSync(filePath);
-  return crypto.createHash('sha1')
-    .update(fileContent)
-    .digest('hex');
+async function generateFileHash(filePath) {
+  const fileContent = await readFile(filePath)
+  return crypto.createHash('sha1').update(fileContent).digest('hex')
 }
 
 async function findFiles(startPath) {
-  const files = [];
+  const files = []
 
-  function traverse(currentPath) {
-    const items = fs.readdirSync(currentPath);
+  async function traverse(currentPath) {
+    const items = await readDir(currentPath)
 
     for (const item of items) {
-      const fullPath = path.join(currentPath, item);
-      const stat = fs.statSync(fullPath);
+      const fullPath = path.join(currentPath, item)
+      const fileStat = await stat(fullPath)
 
-      if (stat.isDirectory()) {
-        traverse(fullPath);
-      } else if (stat.isFile() &&
-            (item.endsWith('.ts') || item.endsWith('.js'))) {
-        files.push(fullPath);
+      if (fileStat.isDirectory()) {
+        await traverse(fullPath)
+      } else if (
+        fileStat.isFile() &&
+        ['.ts', '.js'].some(ext => item.endsWith(ext))
+      ) {
+        files.push(fullPath)
       }
     }
   }
 
-  traverse(startPath);
-  return files.sort();
+  await traverse(startPath)
+  return files.sort()
 }
 
 async function calculateChecksum(directory) {
-  const files = await findFiles(directory);
-  const hashes = [];
+  const files = await findFiles(directory)
+  const hashes = []
 
   for (const file of files) {
-    const hash = generateFileHash(file);
+    const hash = await generateFileHash(file)
     // Create a format similar to shasum output
-    hashes.push(`${hash}  ${file}`);
+    hashes.push(`${hash}  ${file}`)
   }
 
   // Sort the hashes and create a final combined hash
-  const sortedHashes = hashes.sort().join('\n');
-  return crypto.createHash('sha1')
-    .update(sortedHashes)
-    .digest('hex');
+  const sortedHashes = hashes.sort().join('\n')
+  return crypto.createHash('sha1').update(sortedHashes).digest('hex')
 }
 
-async function main(directory, command) {
+export async function compare(directory) {
   try {
-    const newSum = await calculateChecksum(directory);
-    let oldSum = '';
+    const newSum = await calculateChecksum(directory)
 
     try {
-      oldSum = await readFileAsync('.sum', 'utf8');
+      const oldSum = await readFile('.sum', 'utf8')
+
+      if (oldSum.trim() === newSum) {
+        return 0
+      }
     } catch (error) {
-      // File doesn't exist, ignore error
     }
-
-    if (oldSum.trim() === newSum) {
-      console.log('No changes');
-      return 0;
-    }
-
-    console.log('Changes detected');
 
     try {
-      execSync(`pnpm ${command}`, { stdio: 'inherit' });
-
       // Remove old sum file if it exists
       try {
-        await unlinkAsync('.sum');
+        await unlink('.sum')
       } catch (error) {
         // Ignore error if file doesn't exist
       }
 
       // Write new sum
-      await writeFileAsync('.sum', newSum);
-      return 0;
+      await writeFile('.sum', newSum)
+      return 1
     } catch (error) {
-      return error.status || 1;
+      return error.status || 1
     }
   } catch (error) {
-    console.error('Error:', error);
-    return 1;
+    console.error('Error:', error)
+    return 1
   }
 }
 
-// If running directly (not imported as a module)
-if (require.main === module) {
-  const directory = process.argv[2];
+export function main(directory, command) {
   if (!directory) {
-    console.error('Please provide a directory path');
-    process.exit(1);
+    console.error('Usage: check <dir> <command>')
+    console.error('    Error: provide a directory path')
+    process.exit(1)
+  }
+  if (!command) {
+    console.error('Usage: check <dir> <command>')
+    console.error('    Error: provide a command')
+    process.exit(1)
   }
 
-  main(directory).then(process.exit).catch(error => {
-    console.error(error);
-    process.exit(1);
-  });
-} else {
-  module.exports = {
-    main,
-  }
+  compare(directory)
+    .then(success => {
+      if (success === 0) {
+        console.log('No changes')
+      } else {
+        console.log('Changes detected')
+        execSync(command, {stdio: 'inherit'})
+    }
+      process.exit(0)
+    })
+    .catch(error => {
+      console.error(error)
+      process.exit(1)
+    })
 }
