@@ -1,7 +1,10 @@
 {
-	"devDependencies": {
-		"prettier": "^3.3.3",
-		"typescript": "^5.6.3",
-		"@types/node": "^20.3.2"
-	}
+  "scripts": {
+    "bump": "node shared/bump.js"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "@types/node": "^20.3.2"
+  }
 }
