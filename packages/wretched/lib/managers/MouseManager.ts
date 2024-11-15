@@ -380,8 +380,10 @@ function checkEventNames(
     case 'mouse.button.down':
     case 'mouse.button.up':
       return [`mouse.button.${systemEvent.button}`, 'mouse.button.all']
-    case 'mouse.wheel.down':
     case 'mouse.wheel.up':
+    case 'mouse.wheel.down':
+    case 'mouse.wheel.left':
+    case 'mouse.wheel.right':
       return ['mouse.wheel']
   }
 }

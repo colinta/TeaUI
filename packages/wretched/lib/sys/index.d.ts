@@ -23,11 +23,13 @@ export type MouseAction =
   | 'mousemove'
   | 'mousedown'
   | 'mouseup'
-  | 'wheeldown'
   | 'wheelup'
+  | 'wheeldown'
+  | 'wheelleft'
+  | 'wheelright'
   | 'focus'
   | 'blur'
-export type MouseButton = 'left' | 'middle' | 'right' | 'unknown'
+export type MouseButton = 'left' | 'middle' | 'right' | 'wheel' | 'unknown'
 
 export interface MouseEvent {
   name: 'mouse'

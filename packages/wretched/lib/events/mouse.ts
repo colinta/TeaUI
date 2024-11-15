@@ -15,7 +15,7 @@ export type MouseClick =
   | 'dragOutside' // mouse dragged outside
   | 'up' // mouse released inside area
   | 'cancel' // mouse released outside
-export type MouseWheel = 'down' | 'up'
+export type MouseWheel = 'up' | 'down' | 'left' | 'right'
 
 export type MouseEventListenerName =
   | 'mouse.move'
@@ -26,8 +26,10 @@ export type SystemMouseEventName =
   | 'mouse.move.in'
   | 'mouse.button.down'
   | 'mouse.button.up'
-  | 'mouse.wheel.down'
   | 'mouse.wheel.up'
+  | 'mouse.wheel.down'
+  | 'mouse.wheel.left'
+  | 'mouse.wheel.right'
 export type MouseEventName =
   | `mouse.move.${MouseMove}`
   | `mouse.button.${MouseClick}`

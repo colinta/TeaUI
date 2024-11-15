@@ -313,7 +313,14 @@ export class Screen {
 }
 
 function translateMouseAction(
-  action: 'mousemove' | 'mousedown' | 'mouseup' | 'wheeldown' | 'wheelup',
+  action:
+    | 'mousemove'
+    | 'mousedown'
+    | 'mouseup'
+    | 'wheeldown'
+    | 'wheelup'
+    | 'wheelleft'
+    | 'wheelright',
 ): SystemMouseEventName {
   switch (action) {
     case 'mousemove':
@@ -326,6 +333,10 @@ function translateMouseAction(
       return 'mouse.wheel.down'
     case 'wheelup':
       return 'mouse.wheel.up'
+    case 'wheelleft':
+      return 'mouse.wheel.left'
+    case 'wheelright':
+      return 'mouse.wheel.right'
   }
 }
 

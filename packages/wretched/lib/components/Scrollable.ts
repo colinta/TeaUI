@@ -1,7 +1,7 @@
 import type {Viewport} from '../Viewport'
 import {type Props as ContainerProps, Container} from '../Container'
 import {Point, Rect, Size, interpolate} from '../geometry'
-import {type MouseEvent} from '../events'
+import {isMouseWheel, type MouseEvent} from '../events'
 import {Style} from '../Style'
 import {type Orientation} from './types'
 
@@ -16,6 +16,11 @@ interface Props extends ContainerProps {
    * @default 1
    */
   scrollHeight?: number
+  /**
+   * How many cols to scroll by when using the mouse wheel.
+   * @default 2
+   */
+  scrollWidth?: number
 }
 
 interface ContentOffset {
@@ -31,6 +36,7 @@ interface ContentOffset {
 export class Scrollable extends Container {
   #showScrollbars: boolean = true
   #scrollHeight: number = 1
+  #scrollWidth: number = 2
   #contentOffset: ContentOffset
   #contentSize: Size = Size.zero
   #visibleSize: Size = Size.zero
@@ -48,9 +54,10 @@ export class Scrollable extends Container {
     super.update(props)
   }
 
-  #update({scrollHeight, showScrollbars}: Props) {
+  #update({scrollHeight, scrollWidth, showScrollbars}: Props) {
     this.#showScrollbars = showScrollbars ?? true
     this.#scrollHeight = scrollHeight ?? 1
+    this.#scrollWidth = scrollWidth ?? 2
   }
 
   naturalSize(available: Size) {
@@ -73,7 +80,7 @@ export class Scrollable extends Container {
   }
 
   receiveMouse(event: MouseEvent) {
-    if (event.name === 'mouse.wheel.up' || event.name === 'mouse.wheel.down') {
+    if (isMouseWheel(event)) {
       this.receiveWheel(event)
       return
     }
@@ -143,24 +150,29 @@ export class Scrollable extends Container {
   }
 
   receiveWheel(event: MouseEvent) {
-    let delta = 0
+    let deltaY = 0,
+      deltaX = 0
     if (event.name === 'mouse.wheel.up') {
-      delta = this.#scrollHeight * -1
+      deltaY = this.#scrollHeight * -1
     } else if (event.name === 'mouse.wheel.down') {
-      delta = this.#scrollHeight
+      deltaY = this.#scrollHeight
+    } else if (event.name === 'mouse.wheel.left') {
+      deltaX = this.#scrollWidth
+    } else if (event.name === 'mouse.wheel.right') {
+      deltaX = this.#scrollWidth * -1
+    }
+
+    if (event.ctrl) {
+      deltaY *= 5
+      deltaX *= 5
     }
 
     const tooTall = (this.#contentSize?.height ?? 0) > this.contentSize.height
-
-    if (event.ctrl) {
-      delta *= 5
+    if (!tooTall && deltaX === 0) {
+      deltaX = deltaY
     }
 
-    if (event.shift || !tooTall) {
-      this.scrollBy(-delta, 0)
-    } else {
-      this.scrollBy(0, delta)
-    }
+    this.scrollBy(deltaX, deltaY)
   }
 
   /**

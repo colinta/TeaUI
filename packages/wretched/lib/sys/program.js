@@ -591,8 +591,23 @@ Program.prototype._bindMouse = function (s, buf) {
     b -= 32
 
     if ((b >> 6) & 1) {
-      key.action = b & 1 ? 'wheeldown' : 'wheelup'
-      key.button = 'middle'
+      // 64  4 + 00
+      // 65  4 + 01
+      // 66  4 + 10
+      // 67  4 + 11
+      key.action =
+        b & 1
+          ? b & 2
+            ? // 67
+              'wheelright'
+            : // 65
+              'wheeldown'
+          : b & 2
+            ? // 66
+              'wheelleft'
+            : // 64
+              'wheelup'
+      key.button = 'wheel'
     } else if (b === 3) {
       // NOTE: x10 and urxvt have no way
       // of telling which button mouseup used.
