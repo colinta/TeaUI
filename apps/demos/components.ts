@@ -275,7 +275,6 @@ const digits2 = new Digits({
 const scrollable = new Scrollable({
   child: Stack.down([digits1, digits2]),
   width: 40,
-  height: 5,
 })
 
 const drawerView = Stack.down({
@@ -330,17 +329,21 @@ const contentView = Stack.right([
       tabs,
       Stack.right([
         scrollable,
-        new Spinner({
-          padding: 1,
-          isAnimating: false,
-        }),
-        new ToggleGroup({
-          titles: [bold('B'), italic('I'), underline('U'), strikeout('S')],
-          multiple: true,
-          selected: [],
-        }),
+        Stack.down([
+          Stack.right([
+            new Spinner({
+              padding: 1,
+              isAnimating: false,
+            }),
+            new ToggleGroup({
+              titles: [bold('B'), italic('I'), underline('U'), strikeout('S')],
+              multiple: true,
+              selected: [],
+            }),
+          ]),
+          tree,
+        ]),
       ]),
-      tree,
     ],
     {flex: 1},
   ),

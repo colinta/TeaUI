@@ -60,9 +60,11 @@ export class Scrollable extends Container {
     this.#scrollWidth = scrollWidth ?? 2
   }
 
-  naturalSize(available: Size) {
-    const size = super.naturalSize(available)
-    return size.withHeight(available.height)
+  naturalSize(available: Size): Size {
+    const size = super.naturalSize(available).mutableCopy()
+    size.width = Math.min(size.width, available.width)
+    size.height = Math.min(size.height, available.height)
+    return size
   }
 
   #maxOffsetX() {
