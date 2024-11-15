@@ -184,6 +184,8 @@ export class TextContainer extends Container {
       if (this.screen) {
         this.#invalidateNodes()
       }
+    } else {
+      super.removeChild(child)
     }
   }
 

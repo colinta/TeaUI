@@ -148,8 +148,15 @@ export function render(screen: Screen, window: Window, rootNode: ReactNode) {
     ) {
       // do not do the TextContainer song and dance
     } else if (child instanceof TextLiteral || child instanceof TextStyle) {
-      // if last child of parentInstance is TextContainer, use it, otherwise create new one
-      const lastChild = parentInstance.children.at(-1)
+      // find the last child (checking 'before')
+      let lastChild: View | undefined = parentInstance.children.at(-1)
+      if (before) {
+        const index = parentInstance.children.indexOf(before)
+        if (~index) {
+          lastChild = parentInstance.children.at(index - 1)
+        }
+      }
+
       let textContainer: TextContainer
       if (lastChild instanceof TextContainer) {
         textContainer = lastChild
@@ -223,8 +230,6 @@ export function render(screen: Screen, window: Window, rootNode: ReactNode) {
       appendChild(parentInstance, child, undefined)
     },
     insertBefore(parentInstance: Container, child: View, beforeChild: View) {
-      const index = parentInstance.children.indexOf(beforeChild)
-      parentInstance.add(child, index === -1 ? undefined : index)
       appendChild(parentInstance, child, beforeChild)
     },
 
