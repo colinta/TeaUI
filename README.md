@@ -1,26 +1,109 @@
 # Wretched
 
-I wanted a curses-style fullscreen application framework that could be powered by React. Check out https://github.com/colinta/wretched-react for the React renderer for Wretched.
+I wanted a curses-style fullscreen application framework that could be powered by React.
 
-### colors.ts
+This repo is organized as a pnpm. The main library is in `packages/wretched`, and the demo code is in `apps/demo`. There are also React and Preact renders.
 
-```
-bun demo colors.ts
-```
+### Demo: components
 
-![example of output](https://raw.githubusercontent.com/colinta/wretched/9afe0235a7191a4b47568ef4e631ac1c3ab5829b/readme/colors.png)
-
-### inputs.ts
+###### [apps/demo/components.ts](https://github.com/colinta/wretched/blob/master/apps/demos/components.ts)
 
 ```
-bun demo inputs.ts
+pnpm demo components
 ```
 
-![example of output](https://raw.githubusercontent.com/colinta/wretched/9afe0235a7191a4b47568ef4e631ac1c3ab5829b/readme/inputs.png)
+![example of output](https://raw.githubusercontent.com/colinta/wretched/refs/heads/main/readme/components.png)
 
-### demo code
+### Demo: colors.ts
 
+###### [apps/demo/colors.ts](https://github.com/colinta/wretched/blob/master/apps/demos/colors.ts)
+
+```
+pnpm demo colors
+```
+
+![example of output](https://raw.githubusercontent.com/colinta/wretched/refs/heads/main/readme/colors.png)
+
+### Demo: inputs.ts
+
+###### [apps/demo/inputs.ts](https://github.com/colinta/wretched/blob/master/apps/demos/inputs.ts)
+
+```
+pnpm demo inputs.ts
+```
+
+![example of output](https://raw.githubusercontent.com/colinta/wretched/refs/heads/main/readme/inputs.png)
+
+### Example using React
+
+I'll use TypeScript's JSX support here, if you want to use something else go ahead.
+
+###### tsconfig.json
+```json
+{
+  "include": ["./"],
+  "exclude": [".dist/"],
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "declaration": true,
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "outDir": ".dist",
+    "jsx": "react"
+  }
+}
+```
+
+```bash
+pnpm install @wretched-tui/wretched @wretched-tui/react react @types/react
+```
+
+###### index.tsx
 ```tsx
+import React, {useReducer} from 'react'
+import {interceptConsoleLog} from '@wretched-tui/wretched'
+import {
+  Box,
+  Button,
+  Stack,
+  run,
+} from '@wretched-tui/react'
+
+// Recommended:
+interceptConsoleLog()
+
+function App() {
+  const [bang, goto10] = useReducer((state) => state + '!', '')
+
+  return (
+    <Box border="single">
+      <Stack.down>
+        First there was Ncurses{bang}
+        <Button onClick={goto10}>Tell me more!</Button>
+      </Stack.down>
+    </Box>
+  )
+}
+
+run(<App />)
+```
+
+```bash
+pnpm tsc
+node .dist/index.js
+```
+
+### Example using core Wretched
+
+###### example.js
+```javascript
 import {Screen, Box, Stack, Text, Button, interceptConsoleLog} from '@wretched-tui/wretched'
 
 // Recommended:
@@ -55,4 +138,4 @@ Fast-forward a few years and Flexbox and React and declarative UI showed up, and
 
 And now comes `wretched`. I stripped down _blessed_ to only the tput/program/events/colors/unicode parts, and reimplemented React components and Stack layouts.
 
-It's got way less "stuff" in it than _blessed_... but then again blessed had a truly mind-blowing amount of "stuff" to it.
+Enjoy!
