@@ -62,7 +62,7 @@ I'll use TypeScript's JSX support here, if you want to use something else go ahe
 ```
 
 ```bash
-pnpm install @teatui/core @teaui/react react @types/react
+pnpm install @teaui/core @teaui/react react @types/react
 ```
 
 ###### index.tsx
