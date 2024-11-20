@@ -1,17 +1,17 @@
-# TeaUI + Preact
+# TeaUI + React
 
 See [TeaUI](https://github.com/colinta/teaui) for more info about
-TeaUI itself. This library adds a Preact renderer/reconciler.
+TeaUI itself. This library adds a React renderer/reconciler.
 
 ```tsx
-import {useReducer} from 'preact/hooksZ'
+import {useReducer} from 'react'
 import {interceptConsoleLog} from '@teaui/core'
 import {
   Box,
   Button,
   Stack,
   run,
-} from '@teaui/preact'
+} from '@teaui/react'
 
 // Recommended:
 interceptConsoleLog()

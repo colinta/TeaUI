@@ -5,7 +5,7 @@ const path = require('path')
 
 const MAIN_PACKAGE = 'packages/teaui/package.json'
 const DEPENDENT_PACKAGES = [
-  'packages/shared/package.json',
+  'shared/package.json',
   'packages/react/package.json',
   'packages/preact/package.json',
 ]
