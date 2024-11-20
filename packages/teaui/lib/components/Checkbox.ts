@@ -15,7 +15,7 @@ import {childTheme} from '../UI'
 import {System} from '../System'
 
 interface StyleProps {
-  text?: string
+  title?: string
   value: boolean
   onChange?: (value: boolean) => void
   hotKey?: HotKey
@@ -58,19 +58,19 @@ export class Checkbox extends Container {
     super.update(props)
   }
 
-  #update({text, hotKey, value, onChange}: Props) {
-    const styledText = hotKey ? styleTextForHotKey(text ?? '', hotKey) : text
+  #update({title, hotKey, value, onChange}: Props) {
+    const styledText = hotKey ? styleTextForHotKey(title ?? '', hotKey) : title
     this.#textView.text = styledText ?? ''
     this.#value = value
     this.#hotKey = hotKey
     this.#onChange = onChange
   }
 
-  get text() {
+  get title() {
     return this.#textView?.text
   }
 
-  set text(value: string | undefined) {
+  set title(value: string | undefined) {
     const styledText = this.#hotKey
       ? styleTextForHotKey(value ?? '', this.#hotKey)
       : value

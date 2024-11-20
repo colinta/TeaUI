@@ -1,5 +1,0 @@
-{
-  "name": "@wretched/wretched",
-  "version": "1.0.8-alpha",
-  "exports": "lib/index.ts"
-}

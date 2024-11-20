@@ -1,4 +1,4 @@
-import {Scrollable, Stack, Text} from '@wretched-tui/wretched'
+import {Scrollable, Stack, Text} from '@teaui/core'
 
 import {demo} from './demo'
 

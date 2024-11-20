@@ -6,7 +6,7 @@ import {
   strikeout,
   interceptConsoleLog,
   type Border,
-} from '@wretched-tui/wretched'
+} from '@teaui/core'
 import {
   Accordion,
   Box,
@@ -35,7 +35,7 @@ import {
   Text,
   ToggleGroup,
   run,
-} from '@wretched-tui/react'
+} from '@teaui/react'
 
 const borders: Border[] = ['dotted', 'bold', 'rounded', 'double']
 
@@ -97,16 +97,16 @@ function Demo() {
             <Separator.horizontal />
             <Stack.down>
               <Stack.right gap={1}>
-                <Button text="-" onClick={() => setHeight(height - 1)} />
-                <Button text="+" onClick={() => setHeight(height + 1)} />
+                <Button title="-" onClick={() => setHeight(height - 1)} />
+                <Button title="+" onClick={() => setHeight(height + 1)} />
                 <Checkbox
-                  text="Show Console Log"
+                  title="Show Console Log"
                   onChange={toggleDebug}
                   value={debug}
                   hotKey="C-d"
                 />
                 <Checkbox
-                  text="Accordion: multiple"
+                  title="Accordion: multiple"
                   onChange={toggleAccordionMultiple}
                   value={debug}
                   hotKey="C-m"
@@ -153,7 +153,7 @@ function Demo() {
                   </Text>
                   <Space width={1} />
                   <Button
-                    text={message === 'hello' ? 'Leave' : 'Enter'}
+                    title={message === 'hello' ? 'Leave' : 'Enter'}
                     height={1}
                     onClick={leave}
                   />
@@ -172,14 +172,14 @@ function Demo() {
             </Tabs>
             <Input
               wrap
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur molestie faucibus. Phasellus iaculis pellentesque felis eu fringilla. Ut in sollicitudin nisi. Praesent in mauris tortor. Nam interdum, magna eu pellentesque scelerisque, dui sodales enim, et vestibulum nulla dui id ligula. Nam ullamcorper, augue ut interdum vulputate, eros mauris lobortis sapien, ac sodales dui eros ac elit."
+              value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur molestie faucibus. Phasellus iaculis pellentesque felis eu fringilla. Ut in sollicitudin nisi. Praesent in mauris tortor. Nam interdum, magna eu pellentesque scelerisque, dui sodales enim, et vestibulum nulla dui id ligula. Nam ullamcorper, augue ut interdum vulputate, eros mauris lobortis sapien, ac sodales dui eros ac elit."
             />
             <Stack.right>
               <Space flex={1} />
-              <Button flex={3} text="Border" onClick={switchBorder} />
+              <Button flex={3} title="Border" onClick={switchBorder} />
               <Space flex={1} />
             </Stack.right>
-            <Button text={showExtra ? 'Hide' : 'Show'} onClick={toggleExtra} />
+            <Button title={showExtra ? 'Hide' : 'Show'} onClick={toggleExtra} />
             {showExtra ? (
               <Scrollable height={7}>
                 <Stack.down>

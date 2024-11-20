@@ -11,7 +11,7 @@ import {
   type ViewProps,
   View,
   Viewport,
-} from '@wretched-tui/wretched'
+} from '@teaui/core'
 
 /**
  * Used by the React Reconciler to provide default text styles for descendant

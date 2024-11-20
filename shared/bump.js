@@ -3,8 +3,9 @@
 const fs = require('fs/promises')
 const path = require('path')
 
-const MAIN_PACKAGE = 'packages/wretched/package.json'
+const MAIN_PACKAGE = 'packages/teaui/package.json'
 const DEPENDENT_PACKAGES = [
+  'packages/shared/package.json',
   'packages/react/package.json',
   'packages/preact/package.json',
 ]
@@ -67,7 +68,7 @@ async function main() {
     console.log(`Bumped version from ${currentVersion} to ${newVersion}`)
 
     // Update dependent packages
-    await updateDependentPackages(newVersion, '@wretched-tui/wretched')
+    await updateDependentPackages(newVersion, '@teaui/core')
 
     console.log('Version bump completed successfully!')
   } catch (error) {

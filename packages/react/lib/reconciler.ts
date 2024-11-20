@@ -29,7 +29,7 @@ import {
   ToggleGroup,
   View,
   Window,
-} from '@wretched-tui/wretched'
+} from '@teaui/core'
 import {
   TextContainer,
   TextLiteral,
@@ -49,65 +49,91 @@ function createInstance(type: string, props: Props): any {
   switch (type) {
     // views
     case 'br':
-    case 'wr-br':
+    case 'tui-br':
       return new TextLiteral('\n')
-    case 'wr-checkbox':
+    case 'checkbox':
+    case 'tui-checkbox':
       return new Checkbox(props as any)
-    case 'wr-collapsible-text':
+    case 'collapsible-text':
+    case 'tui-collapsible-text':
       return new CollapsibleText(props as any)
-    case 'wr-console':
+    case 'console':
+    case 'tui-console':
       return new ConsoleLog(props as any)
-    case 'wr-digits':
+    case 'digits':
+    case 'tui-digits':
       return new Digits(props as any)
-    case 'wr-h1':
+    case 'h1':
+    case 'tui-h1':
       return H1(((props as any).text as string) ?? '')
-    case 'wr-h2':
+    case 'h2':
+    case 'tui-h2':
       return H2(((props as any).text as string) ?? '')
-    case 'wr-h3':
+    case 'h3':
+    case 'tui-h3':
       return H3(((props as any).text as string) ?? '')
-    case 'wr-h4':
+    case 'h4':
+    case 'tui-h4':
       return H4(((props as any).text as string) ?? '')
-    case 'wr-h5':
+    case 'h5':
+    case 'tui-h5':
       return H5(((props as any).text as string) ?? '')
-    case 'wr-h6':
+    case 'h6':
+    case 'tui-h6':
       return H6(((props as any).text as string) ?? '')
-    case 'wr-input':
+    case 'input':
+    case 'tui-input':
       return new Input(props as any)
-    case 'wr-separator':
+    case 'separator':
+    case 'tui-separator':
       return new Separator(props as any)
-    case 'wr-slider':
+    case 'slider':
+    case 'tui-slider':
       return new Slider(props as any)
-    case 'wr-space':
+    case 'space':
+    case 'tui-space':
       return new Space(props as any)
-    case 'wr-toggle-group':
+    case 'toggle-group':
+    case 'tui-toggle-group':
       return new ToggleGroup(props as any)
 
     // "simple" containers
-    case 'wr-box':
+    case 'box':
+    case 'tui-box':
       return new Box(props as any)
-    case 'wr-button':
+    case 'button':
+    case 'tui-button':
       return new Button(props as any)
-    case 'wr-collapsible':
+    case 'collapsible':
+    case 'tui-collapsible':
       return new Collapsible(props as any)
-    case 'wr-stack':
+    case 'stack':
+    case 'tui-stack':
       return new Stack(props as any)
-    case 'wr-scrollable':
+    case 'scrollable':
+    case 'tui-scrollable':
       return new Scrollable(props as any)
-    case 'wr-style':
+    case 'style':
+    case 'tui-style':
       return new TextStyle(props as any)
-    case 'wr-text':
+    case 'tui-text':
       return new TextProvider(props as any)
 
     // "complex" containers
-    case 'wr-accordion':
+    case 'accordion':
+    case 'tui-accordion':
       return new Accordion(props as any)
-    case 'wr-accordion-section':
+    case 'accordion-section':
+    case 'tui-accordion-section':
       return new Accordion.Section(props as any)
-    case 'wr-drawer':
+    case 'drawer':
+    case 'tui-drawer':
       return new Drawer(props as any)
-    case 'wr-tabs':
+    case 'tabs':
+    case 'tui-tabs':
       return new Tabs(props as any)
-    case 'wr-tabs-section':
+    case 'tabs-section':
+    case 'tui-tabs-section':
       return new Tabs.Section(props as any)
 
     default:

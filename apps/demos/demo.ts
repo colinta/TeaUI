@@ -6,7 +6,7 @@ import {
   Window,
   type View,
   interceptConsoleLog,
-} from '@wretched-tui/wretched'
+} from '@teaui/core'
 
 export async function demo(
   demoContent: View,
@@ -14,7 +14,7 @@ export async function demo(
 ) {
   interceptConsoleLog()
 
-  process.title = 'Wretched'
+  process.title = 'TeaUI'
   if (process.argv.includes('--no-log')) {
     showConsoleLog = false
   }

@@ -1,26 +1,26 @@
 {
-  "name": "@wretched-tui/wretched",
+  "name": "@teaui/core",
   "description": "A high-level terminal UI library for Node",
   "author": "Colin T.A. Gray <colinta@colinta.com>",
   "contributors": [
     "Shawn Chen <meishangchen@gmail.com>",
-    "Christopher Jeffrey (via Blessed)"
+    "npmjs.com/blessed"
   ],
-  "version": "1.1.3",
+  "version": "1.1.4",
   "license": "MIT",
   "preferGlobal": false,
   "repository": {
     "type": "git",
-    "url": "git://github.com/colinta/wretched.git"
+    "url": "git://github.com/colinta/teaui.git"
   },
-  "homepage": "https://github.com/colinta/wretched",
+  "homepage": "https://github.com/colinta/teaui",
   "main": ".dist/index.js",
   "types": ".dist/index.d.ts",
   "files": [
     ".dist/"
   ],
   "bugs": {
-    "url": "http://github.com/colinta/wretched/issues"
+    "url": "http://github.com/colinta/teaui/issues"
   },
   "scripts": {
     "prepublishOnly": "pnpm build",
@@ -46,6 +46,6 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@wretched-tui/shared": "workspace:*"
+    "@teaui/shared": "workspace:*"
   }
 }

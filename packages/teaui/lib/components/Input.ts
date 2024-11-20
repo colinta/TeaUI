@@ -18,7 +18,7 @@ interface TextProps {
 }
 
 interface StyleProps {
-  text?: string
+  value?: string
   wrap?: boolean
   multiline?: boolean
   font?: FontFamily
@@ -46,7 +46,7 @@ export class Input extends View {
   /**
    * Cached after assignment - this is converted to #chars and #lines
    */
-  #text: string = ''
+  #value: string = ''
   /**
    * For easy edit operations. Gets converted to #lines for printing.
    */
@@ -57,8 +57,8 @@ export class Input extends View {
   #wrap: boolean = false
   #multiline: boolean = false
   #font: FontFamily = 'default'
-  #onChange?: (text: string) => void
-  #onSubmit?: (text: string) => void
+  #onChange?: (value: string) => void
+  #onSubmit?: (value: string) => void
 
   // Printable width
   #maxLineWidth: number = 0
@@ -77,7 +77,7 @@ export class Input extends View {
   }
 
   #update({
-    text,
+    value,
     wrap,
     multiline,
     font,
@@ -90,7 +90,7 @@ export class Input extends View {
     this.#wrap = wrap ?? false
     this.#multiline = multiline ?? false
     this.#updatePlaceholderLines(placeholder ?? '')
-    this.#updateLines(unicode.printableChars(text ?? ''), font ?? 'default')
+    this.#updateLines(unicode.printableChars(value ?? ''), font ?? 'default')
   }
 
   #updatePlaceholderLines(placeholder: string) {
@@ -119,7 +119,7 @@ export class Input extends View {
         chars = chars.map(char => (char === '\n' ? ' ' : char))
       }
 
-      this.#text = chars.filter(char => !isAccentChar(char)).join('')
+      this.#value = chars.filter(char => !isAccentChar(char)).join('')
       this.#chars = chars
       const [charLines] = this.#chars.reduce(
         ([lines, line], char, index) => {
@@ -152,7 +152,7 @@ export class Input extends View {
         ]
       })
     } else {
-      this.#text = ''
+      this.#value = ''
       this.#printableLines = this.#placeholder.map(([line, width]) => {
         return [line.concat(' '), width]
       })
@@ -179,12 +179,12 @@ export class Input extends View {
     this.invalidateSize()
   }
 
-  get text() {
-    return this.#text
+  get value() {
+    return this.#value
   }
-  set text(text: string) {
-    if (text !== this.#text) {
-      this.#updateLines(unicode.printableChars(text), undefined)
+  set value(value: string) {
+    if (value !== this.#value) {
+      this.#updateLines(unicode.printableChars(value), undefined)
     }
   }
 
@@ -260,14 +260,14 @@ export class Input extends View {
 
   receiveKey(event: KeyEvent) {
     const prevChars = this.#chars
-    const prevText = this.#text
+    const prevText = this.#value
     let removeAccent = true
 
     if (event.name === 'enter' || event.name === 'return') {
       if (this.#multiline) {
         this.#receiveChar('\n', true)
       } else {
-        this.#onSubmit?.(this.#text)
+        this.#onSubmit?.(this.#value)
         return
       }
     } else if (event.full === 'C-a') {
@@ -307,8 +307,8 @@ export class Input extends View {
       this.#updateLines(this.#chars, undefined)
     }
 
-    if (prevText !== this.#text) {
-      this.#onChange?.(this.#text)
+    if (prevText !== this.#value) {
+      this.#onChange?.(this.#value)
     }
   }
 

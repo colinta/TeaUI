@@ -1,21 +1,13 @@
-import {
-  Box,
-  Button,
-  Drawer,
-  Stack,
-  Input,
-  Space,
-  Text,
-} from '@wretched-tui/wretched'
+import {Box, Button, Drawer, Stack, Input, Space, Text} from '@teaui/core'
 
 import {demo} from './demo'
 
 const firstInput = new Input({
-  text: "family: 👨‍👩‍👧‍👦 smiley: 😀 some other text that isn't very interesting.",
+  value: "family: 👨‍👩‍👧‍👦 smiley: 😀 some other text that isn't very interesting.",
 })
 
 const dontClickMe = new Button({
-  text: 'Not me!',
+  title: 'Not me!',
   onClick() {
     console.info("You DIDN'T")
     firstInput.removeFromParent()
@@ -24,7 +16,7 @@ const dontClickMe = new Button({
 
 let drawer: Drawer
 const changeLocation = new Button({
-  text: 'Change Drawer Location',
+  title: 'Change Drawer Location',
   onClick() {
     switch (drawer.location) {
       case 'top':
@@ -65,7 +57,8 @@ drawer = new Drawer({
           [
             'flex1',
             new Input({
-              text: "family: 👨‍👩‍👧‍👦 smiley: 😀 some other text that isn't very interesting.",
+              value:
+                "family: 👨‍👩‍👧‍👦 smiley: 😀 some other text that isn't very interesting.",
             }),
           ],
           ['flex3', new Text({text: 'flex3-right', alignment: 'right'})],
@@ -77,7 +70,8 @@ drawer = new Drawer({
           [
             'flex3',
             new Input({
-              text: "family: 👨‍👩‍👧‍👦 smiley: 😀 some other text that isn't very interesting.",
+              value:
+                "family: 👨‍👩‍👧‍👦 smiley: 😀 some other text that isn't very interesting.",
             }),
           ],
           ['flex1', new Text({text: 'flex1-right', alignment: 'right'})],
@@ -95,7 +89,7 @@ drawer = new Drawer({
                   'flex1',
                   Stack.down([
                     new Button({
-                      text: 'Click me!🙂',
+                      title: 'Click me!🙂',
                       width: 'natural',
                       onClick() {
                         console.info('You did!')

@@ -6,7 +6,7 @@ import {
   Stack,
   Space,
   Button,
-} from '@wretched-tui/wretched'
+} from '@teaui/core'
 
 import {demo} from './demo'
 
@@ -34,7 +34,7 @@ const buttons = Stack.right({
   children: FontFamilies.map(
     f =>
       new Button({
-        text: f,
+        title: f,
         border: 'none',
         onClick() {
           text.font = f

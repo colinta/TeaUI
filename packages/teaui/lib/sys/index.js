@@ -1,9 +1,10 @@
 /**
- * wretched - a low-level terminal interface library for node.js
+ * teaui - a high-level terminal interface library for node.js
+ * Copyright (c) 2023, Colin Gray and contributors (MIT License).
  *
- * based on blessed - a high-level terminal interface library for node.js
+ * With code from Blessed
  * Copyright (c) 2013-2015, Christopher Jeffrey and contributors (MIT License).
- * https://github.com/colinta/wretched
+ * https://github.com/colinta/teaui
  */
 
 export {Program as program} from './program.js'

@@ -4,17 +4,17 @@
   "license": "MIT",
   "scripts": {
     "build": "pnpm tsc",
-    "checksum": "node -e 'require(\"@wretched-tui/shared\").main(\".\", \"build\")'",
+    "checksum": "node -e 'require(\"@teaui/shared\").main(\".\", \"build\")'",
     "demo": "pnpm checksum && cd .dist && node --enable-source-maps --",
     "clean": "rm -rf .dist/"
   },
   "private": true,
   "dependencies": {
     "preact": "^10.24.3",
-    "@wretched-tui/wretched": "workspace:*",
-    "@wretched-tui/preact": "workspace:*"
+    "@teaui/core": "workspace:*",
+    "@teaui/preact": "workspace:*"
   },
   "devDependencies": {
-    "@wretched-tui/shared": "workspace:*"
+    "@teaui/shared": "workspace:*"
   }
 }

@@ -23,95 +23,95 @@ import type {
   Tabs as WrTabs,
   ToggleGroup as WrToggleGroup,
   ViewProps,
-} from '@wretched-tui/wretched'
+} from '@teaui/core'
 import {TextProvider, TextStyle} from './components/TextReact'
 
 type Children = 'children' | 'child'
-type WretchedView<
+type TUIView<
   T extends abstract new (arg: any, ...args: any) => any,
   OmitProps extends keyof ConstructorParameters<T>[0] = Children,
 > = Omit<NonNullable<ConstructorParameters<T>[0]>, OmitProps>
 
-type WretchedContainer<
+type TUIContainer<
   T extends abstract new (arg: any, ...args: any) => any,
   ChildrenProps extends keyof NonNullable<
     ConstructorParameters<T>[0]
   > = Children,
-> = WretchedView<T, ChildrenProps> & {[Key in ChildrenProps]?: React.ReactNode}
+> = TUIView<T, ChildrenProps> & {[Key in ChildrenProps]?: React.ReactNode}
 
-type CheckboxProps = WretchedView<typeof WrCheckbox>
-type CollapsibleTextProps = WretchedView<typeof WrCollapsibleText>
-type ConsoleProps = WretchedView<typeof WrConsoleLog>
-type DigitsProps = WretchedView<typeof WrDigits>
+type CheckboxProps = TUIView<typeof WrCheckbox>
+type CollapsibleTextProps = TUIView<typeof WrCollapsibleText>
+type ConsoleProps = TUIView<typeof WrConsoleLog>
+type DigitsProps = TUIView<typeof WrDigits>
 type HeaderProps = {text?: string}
-type InputProps = WretchedView<typeof WrInput>
-type SeparatorProps = WretchedView<typeof WrSeparator>
-type SliderProps = WretchedView<typeof WrSlider>
-type SpaceProps = WretchedView<typeof WrSpace>
-type ToggleGroupProps = WretchedView<typeof WrToggleGroup>
+type InputProps = TUIView<typeof WrInput>
+type SeparatorProps = TUIView<typeof WrSeparator>
+type SliderProps = TUIView<typeof WrSlider>
+type SpaceProps = TUIView<typeof WrSpace>
+type ToggleGroupProps = TUIView<typeof WrToggleGroup>
 
 // "simple" containers
-type BoxProps = WretchedContainer<typeof WrBox>
-type ButtonProps = WretchedContainer<typeof WrButton>
-type CollapsibleProps = WretchedContainer<
+type BoxProps = TUIContainer<typeof WrBox>
+type ButtonProps = TUIContainer<typeof WrButton>
+type CollapsibleProps = TUIContainer<
   typeof WrCollapsible,
   'collapsed' | 'expanded' | 'children'
 >
-type ScrollableProps = WretchedContainer<typeof WrScrollable>
-type StackProps = WretchedContainer<typeof WrStack>
-type StyleProps = WretchedContainer<typeof TextStyle>
-type TextProps = WretchedContainer<typeof TextProvider>
+type ScrollableProps = TUIContainer<typeof WrScrollable>
+type StackProps = TUIContainer<typeof WrStack>
+type StyleProps = TUIContainer<typeof TextStyle>
+type TextProps = TUIContainer<typeof TextProvider>
 
 // "complex" containers
-type AccordionProps = WretchedContainer<typeof WrAccordion>
-type AccordionSectionProps = WretchedContainer<typeof WrAccordion.Section>
-type DrawerProps = WretchedContainer<
+type AccordionProps = TUIContainer<typeof WrAccordion>
+type AccordionSectionProps = TUIContainer<typeof WrAccordion.Section>
+type DrawerProps = TUIContainer<
   typeof WrDrawer,
   'content' | 'drawer' | 'children'
 >
-type TabsProps = WretchedContainer<typeof WrTabs>
-type TabsSectionProps = WretchedContainer<typeof WrTabs.Section>
+type TabsProps = TUIContainer<typeof WrTabs>
+type TabsSectionProps = TUIContainer<typeof WrTabs.Section>
 
 declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
       // views
-      'wr-br': {}
-      'wr-checkbox': CheckboxProps
-      'wr-collapsible-text': CollapsibleTextProps
-      'wr-console': ConsoleProps
-      'wr-digits': DigitsProps
-      'wr-h1': HeaderProps
-      'wr-h2': HeaderProps
-      'wr-h3': HeaderProps
-      'wr-h4': HeaderProps
-      'wr-h5': HeaderProps
-      'wr-h6': HeaderProps
-      'wr-input': InputProps
-      'wr-separator': SeparatorProps
-      'wr-slider': SliderProps
-      'wr-space': SpaceProps
-      'wr-toggle-group': ToggleGroupProps
+      'tui-br': {}
+      'tui-checkbox': CheckboxProps
+      'tui-collapsible-text': CollapsibleTextProps
+      'tui-console': ConsoleProps
+      'tui-digits': DigitsProps
+      'tui-h1': HeaderProps
+      'tui-h2': HeaderProps
+      'tui-h3': HeaderProps
+      'tui-h4': HeaderProps
+      'tui-h5': HeaderProps
+      'tui-h6': HeaderProps
+      'tui-input': InputProps
+      'tui-separator': SeparatorProps
+      'tui-slider': SliderProps
+      'tui-space': SpaceProps
+      'tui-toggle-group': ToggleGroupProps
 
-      'wr-tree': ViewProps
+      'tui-tree': ViewProps
 
       // "simple" containers
-      'wr-box': BoxProps
-      'wr-button': ButtonProps
-      'wr-collapsible': CollapsibleProps
+      'tui-box': BoxProps
+      'tui-button': ButtonProps
+      'tui-collapsible': CollapsibleProps
 
-      'wr-scrollable': ScrollableProps
-      'wr-stack': StackProps
-      'wr-style': StyleProps
-      'wr-text': TextProps
+      'tui-scrollable': ScrollableProps
+      'tui-stack': StackProps
+      'tui-style': StyleProps
+      'tui-text': TextProps
 
       // "complex" containers
-      'wr-accordion': AccordionProps
-      'wr-accordion-section': AccordionSectionProps
-      'wr-drawer': DrawerProps
+      'tui-accordion': AccordionProps
+      'tui-accordion-section': AccordionSectionProps
+      'tui-drawer': DrawerProps
 
-      'wr-tabs': TabsProps
-      'wr-tabs-section': TabsSectionProps
+      'tui-tabs': TabsProps
+      'tui-tabs-section': TabsSectionProps
     }
   }
 }
@@ -121,40 +121,40 @@ declare module 'react' {
 //
 
 export function Br(): JSX.Element {
-  return <wr-br />
+  return <tui-br />
 }
 export function Checkbox(reactProps: CheckboxProps): JSX.Element {
-  return <wr-checkbox {...reactProps} />
+  return <tui-checkbox {...reactProps} />
 }
 export function CollapsibleText(reactProps: CollapsibleTextProps): JSX.Element {
-  return <wr-collapsible-text {...reactProps} />
+  return <tui-collapsible-text {...reactProps} />
 }
 export function ConsoleLog(reactProps: ConsoleProps): JSX.Element {
-  return <wr-console {...reactProps} />
+  return <tui-console {...reactProps} />
 }
 export function Digits(reactProps: DigitsProps): JSX.Element {
-  return <wr-digits {...reactProps} />
+  return <tui-digits {...reactProps} />
 }
 export function H1(reactProps: HeaderProps): JSX.Element {
-  return <wr-h1 {...reactProps} />
+  return <tui-h1 {...reactProps} />
 }
 export function H2(reactProps: HeaderProps): JSX.Element {
-  return <wr-h2 {...reactProps} />
+  return <tui-h2 {...reactProps} />
 }
 export function H3(reactProps: HeaderProps): JSX.Element {
-  return <wr-h3 {...reactProps} />
+  return <tui-h3 {...reactProps} />
 }
 export function H4(reactProps: HeaderProps): JSX.Element {
-  return <wr-h4 {...reactProps} />
+  return <tui-h4 {...reactProps} />
 }
 export function H5(reactProps: HeaderProps): JSX.Element {
-  return <wr-h5 {...reactProps} />
+  return <tui-h5 {...reactProps} />
 }
 export function H6(reactProps: HeaderProps): JSX.Element {
-  return <wr-h6 {...reactProps} />
+  return <tui-h6 {...reactProps} />
 }
 export function Input(reactProps: InputProps): JSX.Element {
-  return <wr-input {...reactProps} />
+  return <tui-input {...reactProps} />
 }
 
 interface Separator {
@@ -165,17 +165,17 @@ interface Separator {
 export const Separator: Separator = function Separator(
   reactProps: SeparatorProps,
 ): JSX.Element {
-  return <wr-separator {...reactProps} />
+  return <tui-separator {...reactProps} />
 }
 Separator.horizontal = function SeparatorHorizontal(
   reactProps: Omit<SeparatorProps, 'direction'>,
 ) {
-  return <wr-separator direction="horizontal" {...reactProps} />
+  return <tui-separator direction="horizontal" {...reactProps} />
 }
 Separator.vertical = function SeparatorHorizontal(
   reactProps: Omit<SeparatorProps, 'direction'>,
 ) {
-  return <wr-separator direction="vertical" {...reactProps} />
+  return <tui-separator direction="vertical" {...reactProps} />
 }
 
 interface Slider {
@@ -186,24 +186,24 @@ interface Slider {
 export const Slider: Slider = function Slider(
   reactProps: SliderProps,
 ): JSX.Element {
-  return <wr-slider {...reactProps} />
+  return <tui-slider {...reactProps} />
 }
 Slider.horizontal = function SliderHorizontal(
   reactProps: Omit<SliderProps, 'direction'>,
 ) {
-  return <wr-slider direction="horizontal" {...reactProps} />
+  return <tui-slider direction="horizontal" {...reactProps} />
 }
 Slider.vertical = function SliderHorizontal(
   reactProps: Omit<SliderProps, 'direction'>,
 ) {
-  return <wr-slider direction="vertical" {...reactProps} />
+  return <tui-slider direction="vertical" {...reactProps} />
 }
 
 export function Space(reactProps: SpaceProps): JSX.Element {
-  return <wr-space {...reactProps} />
+  return <tui-space {...reactProps} />
 }
 export function ToggleGroup(reactProps: ToggleGroupProps): JSX.Element {
-  return <wr-toggle-group {...reactProps} />
+  return <tui-toggle-group {...reactProps} />
 }
 
 interface TreeProps<T> extends ViewProps {
@@ -216,11 +216,11 @@ export function Tree<T>(reactProps: TreeProps<T>): JSX.Element {
   const {title, ...props} = reactProps
   const titleView = useMemo(() => {
     if (typeof title === 'string') {
-      return <wr-text>{title}</wr-text>
+      return <tui-text>{title}</tui-text>
     }
     return title
   }, [title])
-  return <wr-tree {...props}>{titleView}</wr-tree>
+  return <tui-tree {...props}>{titleView}</tui-tree>
 }
 
 ////
@@ -229,19 +229,19 @@ export function Tree<T>(reactProps: TreeProps<T>): JSX.Element {
 
 export function Box(reactProps: BoxProps): JSX.Element {
   const {children, ...props} = reactProps
-  return <wr-box {...props}>{children}</wr-box>
+  return <tui-box {...props}>{children}</tui-box>
 }
 export function Button(reactProps: ButtonProps): JSX.Element {
   const {children, ...props} = reactProps
-  return <wr-button {...props}>{children}</wr-button>
+  return <tui-button {...props}>{children}</tui-button>
 }
 export function Collapsible(reactProps: CollapsibleProps): JSX.Element {
   const {collapsed, expanded, ...props} = reactProps
   return (
-    <wr-collapsible {...props}>
+    <tui-collapsible {...props}>
       {collapsed}
       {expanded}
-    </wr-collapsible>
+    </tui-collapsible>
   )
 }
 
@@ -254,43 +254,43 @@ interface Stack {
 }
 export const Stack: Stack = function Stack(reactProps: StackProps) {
   const {children, ...props} = reactProps
-  return <wr-stack {...props}>{children}</wr-stack>
+  return <tui-stack {...props}>{children}</tui-stack>
 }
 Stack.down = function StackLeft(reactProps: Omit<StackProps, 'direction'>) {
   const {children, ...props} = reactProps
   return (
-    <wr-stack direction="down" {...props}>
+    <tui-stack direction="down" {...props}>
       {children}
-    </wr-stack>
+    </tui-stack>
   )
 }
 Stack.up = function StackLeft(reactProps: Omit<StackProps, 'direction'>) {
   const {children, ...props} = reactProps
   return (
-    <wr-stack direction="up" {...props}>
+    <tui-stack direction="up" {...props}>
       {children}
-    </wr-stack>
+    </tui-stack>
   )
 }
 Stack.right = function StackLeft(reactProps: Omit<StackProps, 'direction'>) {
   const {children, ...props} = reactProps
   return (
-    <wr-stack direction="right" {...props}>
+    <tui-stack direction="right" {...props}>
       {children}
-    </wr-stack>
+    </tui-stack>
   )
 }
 Stack.left = function StackLeft(reactProps: Omit<StackProps, 'direction'>) {
   const {children, ...props} = reactProps
   return (
-    <wr-stack direction="left" {...props}>
+    <tui-stack direction="left" {...props}>
       {children}
-    </wr-stack>
+    </tui-stack>
   )
 }
 export function Scrollable(reactProps: ScrollableProps): JSX.Element {
   const {children, ...props} = reactProps
-  return <wr-scrollable {...props}>{children}</wr-scrollable>
+  return <tui-scrollable {...props}>{children}</tui-scrollable>
 }
 /**
  * <Style /> is similar to <Text/> but only allows inline styles (bold, etc).
@@ -299,14 +299,14 @@ export function Scrollable(reactProps: ScrollableProps): JSX.Element {
  * concatenating the text nodes).
  */
 export function Style(reactProps: StyleProps): JSX.Element {
-  return <wr-style {...reactProps} />
+  return <tui-style {...reactProps} />
 }
 /**
  * <Text /> is a container that sets the text properties of child TextLiterals
  * (font, style) and TextContainers (wrap, alignment)
  */
 export function Text(reactProps: TextProps): JSX.Element {
-  return <wr-text {...reactProps} />
+  return <tui-text {...reactProps} />
 }
 
 ////
@@ -321,13 +321,13 @@ export const Accordion: Accordion = function Accordion(
   reactProps: AccordionProps,
 ): JSX.Element {
   const {children, ...props} = reactProps
-  return <wr-accordion {...props}>{children}</wr-accordion>
+  return <tui-accordion {...props}>{children}</tui-accordion>
 }
 Accordion.Section = function SliderHorizontal(
   reactProps: Omit<AccordionSectionProps, 'direction'>,
 ) {
   const {children, ...props} = reactProps
-  return <wr-accordion-section {...props}>{children}</wr-accordion-section>
+  return <tui-accordion-section {...props}>{children}</tui-accordion-section>
 }
 
 interface Drawer {
@@ -342,47 +342,47 @@ export const Drawer: Drawer = function Drawer(
 ): JSX.Element {
   const {children, content, drawer, ...props} = reactProps
   return (
-    <wr-drawer {...props}>
+    <tui-drawer {...props}>
       {content}
       {drawer}
       {children}
-    </wr-drawer>
+    </tui-drawer>
   )
 }
 Drawer.top = function DrawerLeft(reactProps: Omit<DrawerProps, 'location'>) {
   const {children, content, drawer, ...props} = reactProps
   return (
-    <wr-drawer location="top" {...props}>
+    <tui-drawer location="top" {...props}>
       {content}
       {drawer}
       {children}
-    </wr-drawer>
+    </tui-drawer>
   )
 }
 Drawer.right = function DrawerLeft(reactProps: Omit<DrawerProps, 'location'>) {
   const {children, content, drawer, ...props} = reactProps
   return (
-    <wr-drawer location="right" {...props}>
+    <tui-drawer location="right" {...props}>
       {content}
       {drawer}
       {children}
-    </wr-drawer>
+    </tui-drawer>
   )
 }
 Drawer.bottom = function DrawerLeft(reactProps: Omit<DrawerProps, 'location'>) {
   const {children, ...props} = reactProps
   return (
-    <wr-drawer location="bottom" {...props}>
+    <tui-drawer location="bottom" {...props}>
       {children}
-    </wr-drawer>
+    </tui-drawer>
   )
 }
 Drawer.left = function DrawerLeft(reactProps: Omit<DrawerProps, 'location'>) {
   const {children, ...props} = reactProps
   return (
-    <wr-drawer location="left" {...props}>
+    <tui-drawer location="left" {...props}>
       {children}
-    </wr-drawer>
+    </tui-drawer>
   )
 }
 
@@ -392,11 +392,11 @@ interface Tabs {
 }
 export const Tabs: Tabs = function Tabs(reactProps: TabsProps): JSX.Element {
   const {children, ...props} = reactProps
-  return <wr-tabs {...props}>{children}</wr-tabs>
+  return <tui-tabs {...props}>{children}</tui-tabs>
 }
 Tabs.Section = function SliderHorizontal(
   reactProps: Omit<TabsSectionProps, 'direction'>,
 ) {
   const {children, ...props} = reactProps
-  return <wr-tabs-section {...props}>{children}</wr-tabs-section>
+  return <tui-tabs-section {...props}>{children}</tui-tabs-section>
 }

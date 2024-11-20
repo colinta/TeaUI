@@ -34,7 +34,7 @@ import {
   italic,
   underline,
   strikeout,
-} from '@wretched-tui/wretched'
+} from '@teaui/core'
 
 import {demo} from './demo'
 
@@ -59,18 +59,18 @@ const inspect2 = inspect(OBJ, true)
 const primary1 = new Button({
   height: 3,
   theme: 'primary',
-  text: 'Primary',
+  title: 'Primary',
 })
 const primary2 = new Button({
   theme: 'primary',
-  text: 'Primary',
+  title: 'Primary',
 })
 const button1 = new Button({
   height: 3,
-  text: 'Default',
+  title: 'Default',
 })
 const button2 = new Button({
-  text: 'Default',
+  title: 'Default',
 })
 
 const progress0 = new Progress({value: 0, showPercent: true})
@@ -106,7 +106,7 @@ const progress = [
 const checkboxes = [1, 2, 3, 4].map(
   (num, index) =>
     new Checkbox({
-      text: `Choice ${num}`,
+      title: `Choice ${num}`,
       value: true,
       onChange: value => (progress[index].isVisible = value),
     }),
@@ -162,25 +162,25 @@ const slider3 = new Slider({
 const summary = new Text()
 
 const titleInput = new Input({
-  text: '',
+  value: '',
   placeholder: 'Title',
   onChange() {
-    summary.text = titleInput.text + '\n' + storyInput.text
+    summary.text = titleInput.value + '\n' + storyInput.value
   },
 })
 
 const storyInput = new Input({
-  text: '',
+  value: '',
   placeholder: 'Story',
   wrap: true,
   multiline: true,
   onChange() {
-    summary.text = titleInput.text + '\n' + storyInput.text
+    summary.text = titleInput.value + '\n' + storyInput.value
   },
 })
 
 const wrapCheckbox = new Checkbox({
-  text: `Wrap lines?`,
+  title: `Wrap lines?`,
   value: true,
   onChange(value) {
     storyInput.wrap = value

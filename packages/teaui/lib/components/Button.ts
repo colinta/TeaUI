@@ -21,7 +21,7 @@ type Border = 'default' | 'arrows' | 'none'
 type BorderChars = [string, string]
 
 export interface Props extends ContainerProps {
-  text?: string
+  title?: string
   align?: Alignment
   border?: Border
   onClick?: () => void
@@ -53,8 +53,8 @@ export class Button extends Container {
     return childTheme(super.childTheme(view), this.isPressed, this.isHover)
   }
 
-  #update({text, border, align, hotKey, onClick}: Props) {
-    const styledText = hotKey ? styleTextForHotKey(text ?? '', hotKey) : text
+  #update({title, border, align, hotKey, onClick}: Props) {
+    const styledText = hotKey ? styleTextForHotKey(title ?? '', hotKey) : title
     this.#textView.text = styledText ?? ''
     this.#align = align ?? 'center'
     this.#border = border ?? 'default'
@@ -67,10 +67,10 @@ export class Button extends Container {
     return super.naturalSize(available).grow(left + right, 0)
   }
 
-  get text() {
+  get title() {
     return this.#textView.text
   }
-  set text(value: string | undefined) {
+  set title(value: string | undefined) {
     const styledText = this.#hotKey
       ? styleTextForHotKey(value ?? '', this.#hotKey)
       : (value ?? '')

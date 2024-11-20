@@ -1,5 +1,5 @@
 {
-  "extends": "@wretched-tui/shared/tsconfig.json",
+  "extends": "@teaui/shared/tsconfig.json",
   "include": ["./"],
   "exclude": [".dist/"],
   "compilerOptions": {

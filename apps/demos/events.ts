@@ -6,7 +6,7 @@ import {
   View,
   Viewport,
   interceptConsoleLog,
-} from '@wretched-tui/wretched'
+} from '@teaui/core'
 
 import {demo} from './demo'
 

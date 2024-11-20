@@ -1,10 +1,9 @@
-Wretched
+TeaUI + React
 Copyright (c) 2023, Colin T.A. Gray
 https://github.com/colinta/
 
-Based on Blessed
-Copyright (c) 2013-2015, Christopher Jeffrey and contributors
-https://github.com/chjj/
+With code from Blessed
+https://npmjs.com/packages/blessed
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

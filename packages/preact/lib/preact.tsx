@@ -29,100 +29,78 @@ import {
   View,
   ViewProps,
   Window as WrWindow,
-} from '@wretched-tui/wretched'
+} from '@teaui/core'
 import {
   TextContainer,
   TextLiteral,
   TextProvider,
   TextStyle,
 } from './components/TextReact'
-
-type Children = 'children' | 'child'
-type WretchedView<
-  T extends abstract new (arg: any, ...args: any) => any,
-  OmitProps extends keyof ConstructorParameters<T>[0] = Children,
-> = Omit<NonNullable<ConstructorParameters<T>[0]>, OmitProps>
-
-type WretchedContainer<
-  T extends abstract new (arg: any, ...args: any) => any,
-  ChildrenProps extends keyof NonNullable<
-    ConstructorParameters<T>[0]
-  > = Children,
-> = WretchedView<T, ChildrenProps> & {[Key in ChildrenProps]?: React.ReactNode}
-
-type CheckboxProps = WretchedView<typeof WrCheckbox>
-type CollapsibleTextProps = WretchedView<typeof WrCollapsibleText>
-type ConsoleProps = WretchedView<typeof WrConsoleLog>
-type DigitsProps = WretchedView<typeof WrDigits>
-type HeaderProps = {text?: string}
-type InputProps = WretchedView<typeof WrInput>
-type SeparatorProps = WretchedView<typeof WrSeparator>
-type SliderProps = WretchedView<typeof WrSlider>
-type SpaceProps = WretchedView<typeof WrSpace>
-type ToggleGroupProps = WretchedView<typeof WrToggleGroup>
-
-// "simple" containers
-type BoxProps = WretchedContainer<typeof WrBox>
-type ButtonProps = WretchedContainer<typeof WrButton>
-type CollapsibleProps = WretchedContainer<
-  typeof WrCollapsible,
-  'collapsed' | 'expanded' | 'children'
->
-type ScrollableProps = WretchedContainer<typeof WrScrollable>
-type StackProps = WretchedContainer<typeof WrStack>
-type StyleProps = WretchedContainer<typeof TextStyle>
-type TextProps = WretchedContainer<typeof TextProvider>
-
-// "complex" containers
-type AccordionProps = WretchedContainer<typeof WrAccordion>
-type AccordionSectionProps = WretchedContainer<typeof WrAccordion.Section>
-type DrawerProps = WretchedContainer<
-  typeof WrDrawer,
-  'content' | 'drawer' | 'children'
->
-type TabsProps = WretchedContainer<typeof WrTabs>
-type TabsSectionProps = WretchedContainer<typeof WrTabs.Section>
+import type {
+  CheckboxProps,
+  CollapsibleTextProps,
+  ConsoleProps,
+  DigitsProps,
+  HeaderProps,
+  InputProps,
+  SeparatorProps,
+  SliderProps,
+  SpaceProps,
+  ToggleGroupProps,
+  BoxProps,
+  ButtonProps,
+  CollapsibleProps,
+  ScrollableProps,
+  StackProps,
+  StyleProps,
+  TextProps,
+  AccordionProps,
+  AccordionSectionProps,
+  DrawerProps,
+  TabsProps,
+  TabsSectionProps,
+} from './components'
 
 declare module 'react' {
   namespace preact.JSX {
     interface IntrinsicElements {
       // views
-      'wr-br': {}
-      'wr-checkbox': CheckboxProps
-      'wr-collapsible-text': CollapsibleTextProps
-      'wr-console': ConsoleProps
-      'wr-digits': DigitsProps
-      'wr-h1': HeaderProps
-      'wr-h2': HeaderProps
-      'wr-h3': HeaderProps
-      'wr-h4': HeaderProps
-      'wr-h5': HeaderProps
-      'wr-h6': HeaderProps
-      'wr-input': InputProps
-      'wr-separator': SeparatorProps
-      'wr-slider': SliderProps
-      'wr-space': SpaceProps
-      'wr-toggle-group': ToggleGroupProps
+      'tui-br': {}
+      'tui-checkbox': CheckboxProps
+      'tui-collapsible-text': CollapsibleTextProps
+      'tui-console': ConsoleProps
+      'tui-digits': DigitsProps
+      'tui-h1': HeaderProps
+      'tui-h2': HeaderProps
+      'tui-h3': HeaderProps
+      'tui-h4': HeaderProps
+      'tui-h5': HeaderProps
+      'tui-h6': HeaderProps
+      'tui-input': InputProps
+      'tui-separator': SeparatorProps
+      'tui-slider': SliderProps
+      'tui-space': SpaceProps
+      'tui-toggle-group': ToggleGroupProps
 
-      'wr-tree': ViewProps
+      'tui-tree': ViewProps
 
       // "simple" containers
-      'wr-box': BoxProps
-      'wr-button': ButtonProps
-      'wr-collapsible': CollapsibleProps
+      'tui-box': BoxProps
+      'tui-button': ButtonProps
+      'tui-collapsible': CollapsibleProps
 
-      'wr-scrollable': ScrollableProps
-      'wr-stack': StackProps
-      'wr-style': StyleProps
-      'wr-text': TextProps
+      'tui-scrollable': ScrollableProps
+      'tui-stack': StackProps
+      'tui-style': StyleProps
+      'tui-text': TextProps
 
       // "complex" containers
-      'wr-accordion': AccordionProps
-      'wr-accordion-section': AccordionSectionProps
-      'wr-drawer': DrawerProps
+      'tui-accordion': AccordionProps
+      'tui-accordion-section': AccordionSectionProps
+      'tui-drawer': DrawerProps
 
-      'wr-tabs': TabsProps
-      'wr-tabs-section': TabsSectionProps
+      'tui-tabs': TabsProps
+      'tui-tabs-section': TabsSectionProps
     }
   }
 }
@@ -132,67 +110,95 @@ function createView(type: string, props: Props): any {
     case 'text':
       return new TextLiteral(String(props.text) ?? '')
     case 'br':
-    case 'wr-br':
+    case 'tui-br':
       return new TextLiteral('\n')
-    case 'wr-checkbox':
+    case 'checkbox':
+    case 'tui-checkbox':
       return new WrCheckbox(props as any)
-    case 'wr-collapsible-text':
+    case 'collapsible-text':
+    case 'tui-collapsible-text':
       return new WrCollapsibleText(props as any)
-    case 'wr-console':
+    case 'console':
+    case 'tui-console':
       return new WrConsoleLog(props as any)
-    case 'wr-digits':
+    case 'digits':
+    case 'tui-digits':
       return new WrDigits(props as any)
-    case 'wr-h1':
+    case 'h1':
+    case 'tui-h1':
       return H1(((props as any).text as string) ?? '')
-    case 'wr-h2':
+    case 'h2':
+    case 'tui-h2':
       return H2(((props as any).text as string) ?? '')
-    case 'wr-h3':
+    case 'h3':
+    case 'tui-h3':
       return H3(((props as any).text as string) ?? '')
-    case 'wr-h4':
+    case 'h4':
+    case 'tui-h4':
       return H4(((props as any).text as string) ?? '')
-    case 'wr-h5':
+    case 'h5':
+    case 'tui-h5':
       return H5(((props as any).text as string) ?? '')
-    case 'wr-h6':
+    case 'h6':
+    case 'tui-h6':
       return H6(((props as any).text as string) ?? '')
-    case 'wr-toggle-group':
+    case 'toggle-group':
+    case 'tui-toggle-group':
       return new WrToggleGroup(props as any)
-    case 'wr-input':
+    case 'input':
+    case 'tui-input':
       return new WrInput(props as any)
-    case 'wr-literal':
+    case 'literal':
+    case 'tui-literal':
       return new TextLiteral(props.text ?? '')
-    case 'wr-separator':
+    case 'separator':
+    case 'tui-separator':
       return new WrSeparator(props as any)
-    case 'wr-slider':
+    case 'slider':
+    case 'tui-slider':
       return new WrSlider(props as any)
-    case 'wr-space':
+    case 'space':
+    case 'tui-space':
       return new WrSpace(props as any)
     // case 'Tree':
     //   return
-    case 'wr-box':
+    case 'box':
+    case 'tui-box':
       return new WrBox(props as any)
-    case 'wr-button':
+    case 'button':
+    case 'tui-button':
       return new WrButton(props as any)
-    case 'wr-collapsible':
+    case 'collapsible':
+    case 'tui-collapsible':
       return new WrCollapsible(props as any)
-    case 'wr-scrollable':
+    case 'scrollable':
+    case 'tui-scrollable':
       return new WrScrollable(props as any)
-    case 'wr-stack':
+    case 'stack':
+    case 'tui-stack':
       return new WrStack(props as any)
-    case 'wr-style':
+    case 'style':
+    case 'tui-style':
       return new TextStyle(props as any)
-    case 'wr-text':
+    case 'tui-text':
       return new TextProvider(props as any)
-    case 'wr-accordion':
+    case 'accordion':
+    case 'tui-accordion':
       return new WrAccordion(props as any)
-    case 'wr-accordion-section':
+    case 'accordion-section':
+    case 'tui-accordion-section':
       return new WrAccordion.Section(props as any)
-    case 'wr-drawer':
+    case 'drawer':
+    case 'tui-drawer':
       return new WrDrawer(props as any)
-    case 'wr-tabs':
+    case 'tabs':
+    case 'tui-tabs':
       return new WrTabs(props as any)
-    case 'wr-tabs-section':
+    case 'tabs-section':
+    case 'tui-tabs-section':
       return new WrTabs.Section(props as any)
-    case 'wr-window':
+    case 'window':
+    case 'tui-window':
       return new WrWindow(props)
     default:
       throw Error(`Unknown type ${type}`)
@@ -238,8 +244,15 @@ function appendChild(parentInstance: Container, child: View, before?: View) {
   ) {
     // do not do the TextContainer song and dance
   } else if (child instanceof TextLiteral || child instanceof TextStyle) {
-    // if last child of parentInstance is TextContainer, use it, otherwise create new one
-    const lastChild = parentInstance.children.at(-1)
+    // find the last child (checking 'before')
+    let lastChild: View | undefined = parentInstance.children.at(-1)
+    if (before) {
+      const index = parentInstance.children.indexOf(before)
+      if (~index) {
+        lastChild = parentInstance.children.at(index - 1)
+      }
+    }
+
     let textContainer: TextContainer
     if (lastChild instanceof TextContainer) {
       textContainer = lastChild
@@ -366,13 +379,13 @@ function createRendererDom<T>(renderer: Renderer<T>) {
   }
 
   function createRoot() {
-    return createElement('wr-window')
+    return createElement('tui-window')
   }
 
   return {createElement, createElementNS, createTextNode, createRoot}
 }
 
-const dom = createRendererDom({
+const dom = createRendererDom<View>({
   create(type, props) {
     return createView(type, props)
   },

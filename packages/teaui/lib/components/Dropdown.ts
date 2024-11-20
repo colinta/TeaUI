@@ -234,7 +234,7 @@ class DropdownSelector<T> extends Container {
     this.#multiple = multiple
     this.#onSelect = onSelect
     this.#checkbox = new Checkbox({
-      text: 'Select all',
+      title: 'Select all',
       value: false,
       onChange: value => {
         if (value) {

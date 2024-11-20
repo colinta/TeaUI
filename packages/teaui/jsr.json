@@ -1,0 +1,5 @@
+{
+  "name": "@teaui/core",
+  "version": "1.1.4",
+  "exports": "lib/index.ts"
+}

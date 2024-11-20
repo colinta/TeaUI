@@ -1,4 +1,4 @@
-import {Button, Stack, Separator, Space} from '@wretched-tui/wretched'
+import {Button, Stack, Separator, Space} from '@teaui/core'
 
 import {demo} from './demo'
 
@@ -20,7 +20,7 @@ demo(
             new Button({
               height: 1,
               theme: 'primary',
-              text: `Launch ${8 - index}`,
+              title: `Launch ${8 - index}`,
             }),
           ]),
       }),
@@ -29,7 +29,7 @@ demo(
         height: 3,
         border: 'none',
         theme: 'proceed',
-        text: 'Proceed',
+        title: 'Proceed',
       }),
 
       ['flex1', new Space()],
@@ -37,7 +37,7 @@ demo(
         height: 3,
         border: 'none',
         theme: 'cancel',
-        text: 'Cancel',
+        title: 'Cancel',
       }),
 
       ['flex1', new Space()],
@@ -45,12 +45,12 @@ demo(
         height: 3,
         border: 'none',
         theme: 'secondary',
-        text: 'Do it!',
+        title: 'Do it!',
       }),
 
       ['flex1', new Space()],
-      new Button({theme: 'plain', height: 3, text: 'Do it!'}),
-      new Button({theme: 'selected', height: 3, text: 'Do it!'}),
+      new Button({theme: 'plain', height: 3, title: 'Do it!'}),
+      new Button({theme: 'selected', height: 3, title: 'Do it!'}),
       ['flex1', new Space()],
       new Separator({
         direction: 'horizontal',

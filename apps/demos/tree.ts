@@ -1,4 +1,4 @@
-import {interceptConsoleLog, Tree, Text} from '@wretched-tui/wretched'
+import {interceptConsoleLog, Tree, Text} from '@teaui/core'
 import {demo} from './demo'
 
 interceptConsoleLog()

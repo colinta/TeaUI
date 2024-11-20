@@ -5,7 +5,7 @@ import {
   Stack,
   Separator,
   Space,
-} from '@wretched-tui/wretched'
+} from '@teaui/core'
 
 import {demo} from './demo'
 
@@ -62,7 +62,7 @@ const button = new Button({
   height: 3,
   padding: {left: 1, right: 1},
   theme: 'primary',
-  text: 'Launch',
+  title: 'Launch',
   onClick() {
     const choices = [
       ...dropdown.choices,

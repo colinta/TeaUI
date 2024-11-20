@@ -1,17 +1,17 @@
-# Wretched + React
+# TeaUI + React
 
-See [Wretched](https://github.com/colinta/wretched) for more info about
-Wretched itself. This library adds a React renderer/reconciler.
+See [TeaUI](https://github.com/colinta/teaui) for more info about
+TeaUI itself. This library adds a React renderer/reconciler.
 
 ```tsx
 import React, {useReducer} from 'react'
-import {interceptConsoleLog} from '@wretched-tui/wretched'
+import {interceptConsoleLog} from '@teaui/core'
 import {
   Box,
   Button,
   Stack,
   run,
-} from '@wretched-tui/react'
+} from '@teaui/react'
 
 // Recommended:
 interceptConsoleLog()

@@ -1,5 +1,5 @@
-// Type definitions for wretched 1.0
-// Project: https://github.com/colinta/wretched
+// Type definitions for TeaUI 1.0
+// Project: https://github.com/colinta/teaui
 // by Colin T.A. Gray
 //
 // Based on type definitions for blessed 0.1

@@ -1,4 +1,4 @@
-import {Box, Text} from '@wretched-tui/wretched'
+import {Box, Text} from '@teaui/core'
 
 import {demo} from './demo'
 

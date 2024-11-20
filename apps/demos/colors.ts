@@ -7,7 +7,7 @@ import {
   Space,
   Text,
   type Color,
-} from '@wretched-tui/wretched'
+} from '@teaui/core'
 
 import {demo} from './demo'
 
@@ -27,7 +27,7 @@ const rgb = [
 ] as [number, number, number]
 
 const redInput = new Input({
-    text: `${pad(rgb[0])}`,
+    value: `${pad(rgb[0])}`,
     padding: {top: 1},
     onChange: text => {
       const value = Number.parseFloat(text)
@@ -38,7 +38,7 @@ const redInput = new Input({
     },
   }),
   greenInput = new Input({
-    text: `${pad(rgb[1])}`,
+    value: `${pad(rgb[1])}`,
     padding: {top: 1},
     onChange: text => {
       const value = Number.parseFloat(text)
@@ -49,7 +49,7 @@ const redInput = new Input({
     },
   }),
   blueInput = new Input({
-    text: `${pad(rgb[2])}`,
+    value: `${pad(rgb[2])}`,
     padding: {top: 1},
     onChange: text => {
       const value = Number.parseFloat(text)
@@ -80,9 +80,9 @@ const update = () => {
   ansiText.text = ansi
   swatch.background = colors.RGBtoHex(...rgb) as Color
 
-  redInput.text = `${rgb[0]}`
-  greenInput.text = `${rgb[1]}`
-  blueInput.text = `${rgb[2]}`
+  redInput.value = `${rgb[0]}`
+  greenInput.value = `${rgb[1]}`
+  blueInput.value = `${rgb[2]}`
 }
 update()
 

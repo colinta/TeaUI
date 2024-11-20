@@ -1,38 +1,38 @@
-# Wretched
+# TeaUI
 
 I wanted a curses-style fullscreen application framework that could be powered by React.
 
-This repo is organized as a pnpm. The main library is in `packages/wretched`, and the demo code is in `apps/demo`. There are also React and Preact renders.
+This repo is organized as a pnpm workspace. The main library is in `packages/teaui`, and the demo code is in `apps/demo`. There are also React and Preact renderers.
 
 ### Demo: components
 
-###### [apps/demo/components.ts](https://github.com/colinta/wretched/blob/master/apps/demos/components.ts)
+###### [apps/demo/components.ts](https://github.com/colinta/teaui/blob/master/apps/demos/components.ts)
 
 ```
 pnpm demo components
 ```
 
-![example of output](https://raw.githubusercontent.com/colinta/wretched/refs/heads/main/readme/components.png)
+![example of output](https://raw.githubusercontent.com/colinta/teaui/refs/heads/main/readme/components.png)
 
 ### Demo: colors.ts
 
-###### [apps/demo/colors.ts](https://github.com/colinta/wretched/blob/master/apps/demos/colors.ts)
+###### [apps/demo/colors.ts](https://github.com/colinta/teaui/blob/master/apps/demos/colors.ts)
 
 ```
 pnpm demo colors
 ```
 
-![example of output](https://raw.githubusercontent.com/colinta/wretched/refs/heads/main/readme/colors.png)
+![example of output](https://raw.githubusercontent.com/colinta/teaui/refs/heads/main/readme/colors.png)
 
 ### Demo: inputs.ts
 
-###### [apps/demo/inputs.ts](https://github.com/colinta/wretched/blob/master/apps/demos/inputs.ts)
+###### [apps/demo/inputs.ts](https://github.com/colinta/teaui/blob/master/apps/demos/inputs.ts)
 
 ```
 pnpm demo inputs.ts
 ```
 
-![example of output](https://raw.githubusercontent.com/colinta/wretched/refs/heads/main/readme/inputs.png)
+![example of output](https://raw.githubusercontent.com/colinta/teaui/refs/heads/main/readme/inputs.png)
 
 ### Example using React
 
@@ -62,19 +62,19 @@ I'll use TypeScript's JSX support here, if you want to use something else go ahe
 ```
 
 ```bash
-pnpm install @wretched-tui/wretched @wretched-tui/react react @types/react
+pnpm install @teatui/core @teaui/react react @types/react
 ```
 
 ###### index.tsx
 ```tsx
 import React, {useReducer} from 'react'
-import {interceptConsoleLog} from '@wretched-tui/wretched'
+import {interceptConsoleLog} from '@teaui/core'
 import {
   Box,
   Button,
   Stack,
   run,
-} from '@wretched-tui/react'
+} from '@teaui/react'
 
 // Recommended:
 interceptConsoleLog()
@@ -100,11 +100,11 @@ pnpm tsc
 node .dist/index.js
 ```
 
-### Example using core Wretched
+### Example using core library
 
 ###### example.js
 ```javascript
-import {Screen, Box, Stack, Text, Button, interceptConsoleLog} from '@wretched-tui/wretched'
+import {Screen, Box, Stack, Text, Button, interceptConsoleLog} from '@teaui/core'
 
 // Recommended:
 interceptConsoleLog()
@@ -118,24 +118,10 @@ Screen.start(
     border: 'single',
     children: [
       Stack.down([
-        new Text({text: 'First, there was Ncurses'}),
-        new Button({text: 'Tell me more!'}),
+        new Text({text: 'Why is it called TeaUI?'}),
+        new Button({title: 'Tell me!'}),
       ]),
     ],
   }),
 )
 ```
-
-## History
-
-First there was [Ncurses](https://en.wikipedia.org/wiki/Ncurses). Well wait, before Ncurses there was _Curses_, so first there was, ah wait, there was _termcap_, then _curses_, then ~Ncurses~ _pcurses_ and then Ncurses. tput and terminfo were in there somewhere, too.
-
-Then came about twenty years of other stuff.
-
-Then came [blessed](https://github.com/chjj/blessed), and it was really amazing! Look through the source and imagine writing all that by yourself. Mind blown.
-
-Fast-forward a few years and Flexbox and React and declarative UI showed up, and blessed didn't notice or care by then.
-
-And now comes `wretched`. I stripped down _blessed_ to only the tput/program/events/colors/unicode parts, and reimplemented React components and Stack layouts.
-
-Enjoy!

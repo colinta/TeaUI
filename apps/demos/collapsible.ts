@@ -1,4 +1,4 @@
-import {inspect, Collapsible, Text} from '@wretched-tui/wretched'
+import {inspect, Collapsible, Text} from '@teaui/core'
 
 import {demo} from './demo'
 

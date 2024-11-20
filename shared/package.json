@@ -1,7 +1,7 @@
 {
-  "name": "@wretched-tui/shared",
+  "name": "@teaui/shared",
   "main": "check.js",
-  "version": "0.0.1",
+  "version": "1.1.4",
   "files": [
     "check.js",
     "tsconfig.json"

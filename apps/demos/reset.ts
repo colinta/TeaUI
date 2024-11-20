@@ -1,3 +1,3 @@
-import {Screen} from '@wretched-tui/wretched'
+import {Screen} from '@teaui/core'
 
 Screen.reset()

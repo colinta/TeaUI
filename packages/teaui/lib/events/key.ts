@@ -1,7 +1,7 @@
 import {underline} from '../ansi'
-import type {KeyEvent as WretchedKeyEvent} from '../sys'
+import type {KeyEvent as TUIKeyEvent} from '../sys'
 
-export type KeyEvent = WretchedKeyEvent & {type: 'key'}
+export type KeyEvent = TUIKeyEvent & {type: 'key'}
 export type HotKeyDef = {
   char: string
   ctrl?: boolean

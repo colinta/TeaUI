@@ -1,4 +1,4 @@
-import {Button, Stack, Progress, Text} from '@wretched-tui/wretched'
+import {Button, Stack, Progress, Text} from '@teaui/core'
 
 import {demo} from './demo'
 
@@ -110,7 +110,7 @@ const timer = new Timer()
 timer.start()
 
 const button = new Button({
-  text: 'Pause',
+  title: 'Pause',
   onClick() {
     timer.toggle()
   },
