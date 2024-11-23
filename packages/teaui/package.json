@@ -45,6 +45,12 @@
     "node": ">= 18.12.0"
   },
   "dependencies": {},
+  "optionalDependencies": {
+    "blessed": "latest",
+    "east-asian-width": "latest",
+    "eastasianwidth": "latest",
+    "ansi-regex": "latest"
+  },
   "devDependencies": {
     "@teaui/shared": "workspace:*"
   }

@@ -2,8 +2,8 @@ TeaUI
 Copyright (c) 2023, Colin T.A. Gray
 https://github.com/colinta/teaui
 
-With code from Blessed
-https://npmjs.com/packages/blessed
+With code from multiple sources
+see https://github.com/colinta/teaui/blob/master/packages/teaui/LICENSE
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,9 +1,18 @@
 TeaUI
 Copyright (c) 2023, Colin T.A. Gray
-https://github.com/colinta/
+https://github.com/colinta/teaui
 
-With code from Blessed
+With code from Blessed (see LICENSE-blessed)
 https://github.com/chjj/blessed
+
+With code from vangie/east-asian-width (see LICENSE-east-asian-width)
+https://github.com/vangie/east-asian-width
+
+With code from komagata/eastasianwidth (see LICENSE-eastasianwidth)
+https://github.com/komagata/eastasianwidth
+
+With code from ansi-regex (see LICENSE-ansi-regex)
+https://github.com/chalk/ansi-regex
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
