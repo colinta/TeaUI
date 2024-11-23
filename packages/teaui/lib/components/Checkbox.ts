@@ -79,7 +79,7 @@ export class Checkbox extends Container {
   }
 
   naturalSize(available: Size): Size {
-    return super.naturalSize(available).grow(BOX_WIDTH, 0)
+    return super.naturalSize(available).grow(CHECKBOX_WIDTH, 0)
   }
 
   receiveMouse(event: MouseEvent, system: System) {
@@ -105,7 +105,7 @@ export class Checkbox extends Container {
 
     viewport.paint(uiStyle)
 
-    const boxWidth = BOX_WIDTH
+    const boxWidth = CHECKBOX_WIDTH
     const naturalSize = super.naturalSize(
       viewport.contentSize.shrink(boxWidth, 0),
     )
@@ -138,7 +138,7 @@ const BOX: Record<
 > = {
   checkbox: {
     unchecked: '☐ ',
-    checked: '☑ ',
+    checked: '◼︎ ',
   },
   radio: {
     unchecked: '◯ ',
@@ -146,4 +146,4 @@ const BOX: Record<
   },
 }
 
-const BOX_WIDTH = unicode.lineWidth(BOX.checkbox.unchecked)
+const CHECKBOX_WIDTH = 2
