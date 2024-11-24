@@ -28,7 +28,9 @@
     "gittag": "git tag $(node -e 'process.stdout.write(require(\"./package\").version)')",
     "clean": "rm -rf .dist/",
     "cp-usr": "mkdir -p .dist/sys/usr/ && cp lib/sys/usr/* .dist/sys/usr/",
-    "build": "pnpm clean && pnpm tsc && pnpm cp-usr"
+    "build": "pnpm clean && pnpm tsc && pnpm cp-usr",
+    "test": "ava",
+    "test:watch": "ava --watch --clear-screen"
   },
   "keywords": [
     "curses",
@@ -52,6 +54,25 @@
     "ansi-regex": "latest"
   },
   "devDependencies": {
-    "@teaui/shared": "workspace:*"
+    "@teaui/shared": "workspace:*",
+    "ava": "^6.2.0",
+    "tsimp": "^2.0.12"
+  },
+  "ava": {
+    "extensions": {
+      "ts": "module"
+    },
+    "files": [
+      "tests/**/*",
+      "lib/**/*.test.ts",
+      "lib/**/*.test.tsx"
+    ],
+    "concurrency": 5,
+    "failFast": true,
+    "failWithoutAssertions": false,
+    "verbose": true,
+    "nodeArguments": [
+      "--import=tsimp"
+    ]
   }
 }
