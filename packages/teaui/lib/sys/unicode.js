@@ -1,7 +1,16 @@
 const BG_DRAW = '\x14'
 
 /**
- * Does not check to make sure 'str' is only one character
+ * Returns the number of *cells* that the first character of the string takes up.
+ *
+ * "Cell" refers to a terminal space: ASCII characters take 1 cell, Emoji and Asian
+ * characters take 2 cells. ANSI codes (\x1b[...) return 0.
+ *
+ * This code came straight from blessed, and includes snippets from
+ * https://github.com/vangie/east-asian-width and
+ * https://github.com/komagata/eastasianwidth (last updated ~2015)
+ *
+ * Note: does not check to make sure 'str' is only one character
  */
 export function charWidth(str) {
   // this special character is used by viewport.paint. If you are copying this code
@@ -12,7 +21,7 @@ export function charWidth(str) {
 
   // added: ANSI formatter support
   // eslint-disable-next-line no-control-regex
-  if (!str.length || str === '\x1b' || str.match(/^\x1b\[[\d;]*m$/)) {
+  if (!str.length || ansiRegex.test(str)) {
     return 0
   }
 
@@ -320,7 +329,7 @@ export function stringSize(str, maxWidth) {
 
 export function lineWidth(str) {
   var width = 0
-  for (const char of Array.isArray(str) ? str : graphemes(str)) {
+  for (const char of Array.isArray(str) ? str : printableChars(str)) {
     if (str === '\n') {
       break
     }
@@ -328,75 +337,59 @@ export function lineWidth(str) {
   }
   return width
 }
-export const locale = process.env.LANG?.split('.')[0]?.slice(0, 2) ?? 'en'
 
-export const graphemes = (function () {
-  if (!global['Intl']) {
-    const ZERO_WIDTH_JOINER = 0x200d
-    return input => {
-      input = removeAnsi(input)
-      const printableChars = [...input]
-      for (let i = printableChars.length - 1; i > 0; i--) {
-        if (printableChars[i].charCodeAt(0) === ZERO_WIDTH_JOINER) {
-          // find & handle special combination character
-          printableChars[i - 1] += printableChars[i] + printableChars[i + 1]
-          // remove the combined characters
-          printableChars.splice(i, 2)
-        }
-      }
+let locale = process.env.LANG?.split('.')[0]?.slice(0, 2) ?? 'en'
+let graphemesSegmenter = new Intl.Segmenter(locale)
+let wordsSegmenter = new Intl.Segmenter(locale, {granularity: 'word'})
 
-      return printableChars
-    }
+export function getLocale() {
+  return locale
+}
+
+export function setLocale(value) {
+  locale = value
+  graphemesSegmenter = new Intl.Segmenter(locale)
+  wordsSegmenter = new Intl.Segmenter(locale, {granularity: 'word'})
+}
+
+export function words(input) {
+  if (Array.isArray(input)) {
+    input = input.join('')
   }
 
-  const segmenter = new Intl.Segmenter(locale)
-  return input => {
-    input = removeAnsi(input)
-    const parts = segmenter.segment(input)
-    return [...parts].map(({segment}) => segment)
-  }
-})()
+  const ansiData = ansiLocations(input, false)
+  input = removeAnsi(input)
 
-export const words = (function () {
-  if (!global['Intl']) {
-    return input => {
-      if (Array.isArray(input)) {
-        input = input.join('')
-      } else {
-        input = removeAnsi(input)
-      }
-
-      let offset = 0
-      return input.split(/\b/).map(segment => {
-        const currentOffset = offset
-        const chars = graphemes(segment)
-        offset += chars.length
-        return [chars, currentOffset]
-      })
+  let strIndex = 0
+  const segments = Array.from(wordsSegmenter.segment(input)).map(
+    ({segment}) => segment,
+  )
+  const parts = segments.map(segment => {
+    while (
+      ansiData.length &&
+      strIndex + segment.length >= ansiData.at(0).start
+    ) {
+      const {start, ansi} = ansiData.shift()
+      const lhs = segment.slice(0, start)
+      const rhs = segment.slice(start)
+      segment = lhs + ansi + rhs
+      strIndex += ansi.length
     }
+    return segment
+  })
+
+  let offset = 0
+  let words = []
+  for (let segment of parts) {
+    const currentOffset = offset
+    let chars = printableChars(segment)
+    offset += chars.length
+
+    words.push([chars, currentOffset])
   }
 
-  const segmenter = new Intl.Segmenter(locale, {granularity: 'word'})
-  return input => {
-    if (Array.isArray(input)) {
-      input = input.join('')
-    } else {
-      input = removeAnsi(input)
-    }
-
-    const parts = segmenter.segment(input)
-    let offset = 0
-    let words = []
-    for (let {segment} of parts) {
-      const currentOffset = offset
-      const chars = graphemes(segment)
-      offset += chars.length
-      words.push([chars, currentOffset])
-    }
-
-    return words
-  }
-})()
+  return words
+}
 
 export function printableChars(str) {
   if (str.length === 0) {
@@ -411,26 +404,72 @@ export function printableChars(str) {
     return [...str]
   }
 
-  let isFirst = true
   const chars = []
-  // eslint-disable-next-line no-control-regex
-  for (const input of str.split(/\x1b\[/)) {
-    const match = input.match(/^([\d;]*m)((.|[\n\r])*)$/m)
-    if (match && !isFirst) {
-      chars.push(`\x1b[${match[1]}`)
-      chars.push(...graphemes(match[2]))
-    } else {
-      chars.push(...graphemes(input))
+  let locations = ansiLocations(str, true)
+  let prevIndex = 0
+  for (const {start, stop, ansi} of locations) {
+    // if the string starts with an ansi sequence, we don't prepend any graphemes,
+    // and if there are NO ansi sequences we will pick up on the entire string
+    // thanks to `includeLast` option.
+    if (prevIndex < start) {
+      const input = str.slice(prevIndex, start)
+
+      for (const {segment: char} of graphemesSegmenter.segment(input)) {
+        chars.push(char)
+      }
     }
-    isFirst = false
+
+    if (ansi) {
+      chars.push(ansi)
+    }
+
+    prevIndex = stop
   }
 
   return chars
 }
 
+/**
+ * Copied this (on 2025-11-23) from
+ * https://github.com/chalk/ansi-regex/blob/main/index.js
+ */
+const ansiRegex = (() => {
+  // Valid string terminator sequences are BEL, ESC\, and 0x9c
+  const ST = '(?:\\u0007|\\u001B\\u005C|\\u009C)'
+  const pattern = [
+    `[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?${ST})`,
+    '(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]))',
+  ].join('|')
+
+  return new RegExp(pattern, 'g')
+})()
+
+export function ansiLocations(input, includeLast) {
+  // eslint-disable-next-line no-control-regex
+  const locations = [...input.matchAll(ansiRegex)].map(({0: match, index}) => ({
+    start: index,
+    stop: index + match.length,
+    ansi: match,
+  }))
+
+  if (
+    includeLast &&
+    (!locations.length || locations.at(-1).stop < input.length)
+  ) {
+    const last = {
+      start: input.length,
+      stop: input.length,
+      ansi: '',
+    }
+    locations.push(last)
+  }
+
+  return locations
+}
+
 export function removeAnsi(input) {
   // eslint-disable-next-line no-control-regex
-  return input.replaceAll(/\x1b\[[\d;]*m/g, '')
+  return input.replaceAll(ansiRegex, '')
 }
 
 const combiningTable = [

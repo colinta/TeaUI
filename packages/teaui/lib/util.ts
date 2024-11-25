@@ -81,87 +81,144 @@ export function define<T extends object>(
   } while (kls && kls !== Object.prototype)
 }
 
-export function wrap(input: string, contentWidth: number) {
-  debugger
-  const lines = input
-    .split('\n')
-    .map(line => [line, unicode.lineWidth(line)] as const)
+function isStringArray(
+  input: string | string[] | [string, number][],
+): input is string[] {
+  return input.length > 0 && typeof input[0] === 'string'
+}
+
+function isStringAndWidthArray(
+  input: string | string[] | [string, number][],
+): input is string[] {
+  return input.length > 0 && Array.isArray(input[0])
+}
+
+/**
+ * Wraps lines to fit within contentWidth. Lots to solve for here.
+ * 1. Word wrapping is accomplished using unicode.words
+ * 2. ANSI codes are restored by scanning the segments, inserting the ANSI back where it belongs
+ */
+export function wrap(
+  input: string | string[] | [string, number][],
+  contentWidth: number,
+): [string, number][] {
+  if (contentWidth === 0) {
+    return []
+  }
+
+  let lines: [string, number][]
+  if (typeof input === 'string') {
+    lines = input
+      .split('\n')
+      .map(line => [line, unicode.lineWidth(line)] as const)
+  } else if (isStringArray(input)) {
+    lines = input.map(line => [line, unicode.lineWidth(line)] as const)
+  } else if (isStringAndWidthArray(input)) {
+    lines = input
+  } else {
+    return []
+  }
+
   return lines.flatMap(([line, width]): [string, number][] => {
-    debugger
     if (width <= contentWidth) {
       return [[line, width]]
     }
 
-    const lines: [string, number][] = []
-    let currentLine: string[] = []
-    let currentWidth = 0
-    const STOP = null
-
-    function pushTrimmed(line: string) {
+    const outputLines: [string, number][] = []
+    function pushTrimmed(line: string, width: number) {
       const trimmed = line.replace(/\s+$/, '')
-      lines.push([trimmed, unicode.lineWidth(trimmed)])
+      const trimmedWidth = width - (line.length - trimmed.length)
+      outputLines.push([trimmed, trimmedWidth])
     }
 
-    for (let [wordChars] of [...unicode.words(line), [STOP]]) {
-      const wordWidth = wordChars ? unicode.lineWidth(wordChars) : 0
+    let currentChars: string[] = []
+    let currentWidth = 0
+    const STOP: string[] = []
+    const words = unicode.words(line).concat([[STOP, 0]] as const)
+    for (const [wordChars] of words) {
+      let wordWidth = unicode.lineWidth(wordChars)
       if (
         (!currentWidth || currentWidth + wordWidth <= contentWidth) &&
         wordChars !== STOP
       ) {
-        // there's enough room on the line (and it's not the sentinel STOP)
-        // or the line is empty
-        currentLine.push(...wordChars)
+        // 1) there's enough room on the line (and it's not the sentinel STOP)
+        // or the line is empty, in which case it must have at least _one_ word.
+        // it's possible that this will add a word _longer_ than contentWidth.
+        // that's ok, it will get picked up below (on the next word, or by STOP)
+        currentChars.push(...wordChars)
         currentWidth += wordWidth
       } else {
+        // 2) there wasn't enough room on the line – or we are at the STOP sentinel.
         if (currentWidth <= contentWidth) {
-          pushTrimmed(currentLine.join(''))
-          currentLine = []
+          // 3) if currentChars fits, push it to the buffer and reset currentChars
+          //    if wordChars has content it didn't fit on the current line. It will
+          //    be picked up below
+          pushTrimmed(currentChars.join(''), currentWidth)
+          currentChars = []
           currentWidth = 0
         } else {
-          // if currentLine is _already_ longer than contentWidth, wrap it, leaving the
-          // remainder on currentLine
+          // 4) currentChars is longer than contentWidth. Add characters one at a time
+          //    until >contentWidth. The remaining characters can stay in currentChars.
+          //    If we are at the end (STOP), add
           do {
             let buffer = '',
-              bufferWidth = 0
-            for (let [index, char] of currentLine.entries()) {
+              bufferWidth = 0,
+              index = 0
+            for (let char of currentChars) {
               const charWidth = unicode.charWidth(char)
-              if (bufferWidth + charWidth > contentWidth) {
-                pushTrimmed(buffer)
+              if (bufferWidth && bufferWidth + charWidth > contentWidth) {
+                pushTrimmed(buffer, bufferWidth)
 
-                // scan past whitespace
-                while (currentLine[index]?.match(/^\s+$/)) {
+                // Some delicate math here; remove the bufferWidth from currentWidth, and then
+                // scan past whitespace, removing that width, too. (Avoids an expensive call to
+                // unicode.lineWidth())
+                currentWidth -= bufferWidth
+                while (currentChars[index]?.match(/^\s+$/)) {
+                  currentWidth -= unicode.charWidth(currentChars[index])
                   index += 1
                 }
-                currentLine = currentLine.slice(index)
-                currentWidth = unicode.lineWidth(currentLine)
-                break
+
+                currentChars = currentChars.slice(index)
+                index = 0
+                if (currentWidth > contentWidth) {
+                  // if remaining width is still longer than contentWidth, reset bufferWidth and
+                  // continue
+                  buffer = ''
+                  bufferWidth = 0
+                } else {
+                  // either we have more words, or we are at STOP but we have enough room for
+                  // currentChars in contentWidth
+                  break
+                }
               }
 
               buffer += char
               bufferWidth += charWidth
+              index += 1
             }
           } while (currentWidth > contentWidth)
-
-          if (wordChars === STOP && currentLine.length) {
-            pushTrimmed(currentLine.join(''))
-            currentLine = []
-            currentWidth = 0
-          }
         }
 
-        if (wordChars) {
-          // remove preceding whitespace if currentLine is empty
-          if (currentLine.length === 0) {
+        if (wordChars === STOP && currentChars.length) {
+          pushTrimmed(currentChars.join(''), currentWidth)
+        } else if (wordChars.length) {
+          // until now, we've only processed the _previous_ currentChars buffer, and it
+          // needed to be wrapped to contentWidth. If any remains in currentChars, it
+          // starts with a printable character (we skipped whitespace when buffer was
+          // full).
+          // If it's empty, we should skip the preceding whitespace in wordChars.
+          if (currentChars.length === 0) {
             while (wordChars.length && wordChars[0].match(/^\s+$/)) {
-              wordChars = wordChars.slice(1)
+              const char = wordChars.shift()!
+              wordWidth -= unicode.charWidth(char)
             }
           }
-          currentLine.push(...wordChars)
-          currentWidth = unicode.lineWidth(currentLine)
+          currentChars.push(...wordChars)
+          currentWidth += wordWidth
         }
       }
     }
 
-    return lines
+    return outputLines
   })
 }

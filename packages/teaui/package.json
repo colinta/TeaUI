@@ -62,8 +62,12 @@
     "extensions": {
       "ts": "module"
     },
+    "require": [
+      "tests/setup.ts"
+    ],
     "files": [
-      "tests/**/*",
+      "tests/**/*.test.ts",
+      "tests/**/*.test.tsx",
       "lib/**/*.test.ts",
       "lib/**/*.test.tsx"
     ],
