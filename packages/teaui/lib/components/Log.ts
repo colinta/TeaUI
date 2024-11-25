@@ -1,8 +1,15 @@
-import {fetchLogs, type Level, LogLine} from '../log'
+import {
+  fetchLogs,
+  type Level,
+  LogLine,
+  addListener as addLogListener,
+  removeListener as removeLogListener,
+} from '../log'
 import {centerPad} from '../util'
 import {styled} from '../ansi'
 import {Viewport} from '../Viewport'
 import {View, type Props as ViewProps} from '../View'
+import {Screen} from '../Screen'
 
 import {Container} from '../Container'
 import {Text} from './Text'
@@ -132,8 +139,15 @@ export class ConsoleLog extends Log {
 
   constructor(props: ViewProps = {}) {
     super(props)
+  }
 
-    ConsoleLog.default = this
+  didMount(screen: Screen) {
+    addLogListener(this.invalidateSize)
+    super.didMount(screen)
+  }
+  didUnmount(screen: Screen) {
+    removeLogListener(this.invalidateSize)
+    super.didUnmount(screen)
   }
 
   render(viewport: Viewport) {

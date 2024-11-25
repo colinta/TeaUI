@@ -41,9 +41,21 @@ export function decorateConsoleLog() {
   })
 }
 
+const logListeners = new Set<() => void>()
+
+export function addListener(listener: () => void) {
+  logListeners.add(listener)
+}
+
+export function removeListener(listener: () => void) {
+  logListeners.delete(listener)
+}
+
 function appendLog(level: Level, args: any[]) {
   logs.push({level, args: args.map(arg => inspect(arg, true))})
-  ConsoleLog.default?.invalidateSize()
+  for (const listener of logListeners) {
+    listener()
+  }
 }
 
 export function fetchLogs() {
