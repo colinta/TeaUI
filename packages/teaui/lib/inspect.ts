@@ -1,4 +1,4 @@
-import {colorize, red} from './ansi'
+import {bold, cyan, gray, green, red, yellow} from './ansi'
 
 let _debug = false
 export function isDebugging(enabled?: boolean) {
@@ -151,4 +151,71 @@ export function inspect(
   return newline
     ? `${name}{\n${innerTab}${inner}\n${tab}}`
     : `${name}{ ${inner} }`
+}
+
+interface Colorize {
+  format(input: any): string
+  number(input: number): string
+  symbol(input: symbol): string
+  string(input: string, doQuote?: boolean): string
+  key(input: string | symbol | number): string
+  boolean(input: boolean): string
+  undefined(): string
+  null(): string
+}
+
+export const colorize: Colorize = {
+  format: function (input: any): string {
+    switch (typeof input) {
+      case 'string':
+        return colorize.string(input)
+      case 'symbol':
+        return colorize.symbol(input)
+      case 'number':
+        return colorize.number(input)
+      case 'undefined':
+        return colorize.undefined()
+      case 'object':
+        return colorize['null']()
+      default:
+        return String(input)
+    }
+  },
+  number: function (input: number) {
+    return yellow(''.concat(String(input)))
+  },
+  symbol: function (input: symbol) {
+    return red(''.concat(String(input)))
+  },
+  string: function (input: string, doQuote: boolean = true) {
+    let quote: string
+    if (doQuote) {
+      if (input.includes("'")) {
+        quote = '"'
+        input = input.replaceAll('"', '\\"')
+      } else {
+        quote = "'"
+        input = input.replaceAll("'", "\\'")
+      }
+    } else {
+      quote = ''
+    }
+
+    input = input.replaceAll(/\n/g, '⤦')
+    input = input.replaceAll(/\x1b/g, '␛')
+
+    return green(quote.concat(input, quote))
+  },
+  key: function (input: string | symbol | number) {
+    return cyan(String(input))
+  },
+  boolean: function (input: boolean) {
+    return yellow(''.concat(String(input)))
+  },
+  undefined: function () {
+    return gray('undefined')
+  },
+  null: function () {
+    return bold('null')
+  },
 }
