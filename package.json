@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "demo": "pnpm -C apps/demo demo",
+    "demo": "pnpm -C apps/demos demo",
     "bump": "node shared/bump.js"
   },
   "devDependencies": {
