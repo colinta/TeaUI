@@ -3,7 +3,7 @@
   "description": "Preact renderer for TeaUI",
   "author": "Colin T.A. Gray <colinta@colinta.com>",
   "contributors": [],
-  "version": "1.2.0",
+  "version": "1.2.1",
   "license": "MIT",
   "preferGlobal": false,
   "repository": {
@@ -43,7 +43,7 @@
   "peerDependencies": {},
   "dependencies": {
     "preact": "^10.24.3",
-    "@teaui/core": "^1.2.0"
+    "@teaui/core": "^1.2.1"
   },
   "devDependencies": {
     "@teaui/shared": "workspace:*"

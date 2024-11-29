@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-const fs = require('fs/promises')
-const path = require('path')
+import { readFile, writeFile } from 'fs/promises'
 
 const MAIN_PACKAGE = 'packages/teaui/package.json'
 const DEPENDENT_PACKAGES = [
@@ -11,12 +10,12 @@ const DEPENDENT_PACKAGES = [
 ]
 
 async function readPackageJson(filePath) {
-  const content = await fs.readFile(filePath, 'utf-8')
+  const content = await readFile(filePath, 'utf-8')
   return JSON.parse(content)
 }
 
 async function writePackageJson(filePath, content) {
-  await fs.writeFile(filePath, JSON.stringify(content, null, 2) + '\n')
+  await writeFile(filePath, JSON.stringify(content, null, 2) + '\n')
 }
 
 function bumpVersion(version, type) {
@@ -34,17 +33,17 @@ function bumpVersion(version, type) {
   }
 }
 
-async function updateDependentPackages(newVersion, package) {
+async function updateDependentPackages(newVersion, packageName) {
   for (const packagePath of DEPENDENT_PACKAGES) {
     const pkg = await readPackageJson(packagePath)
     pkg.version = newVersion
 
-    if (pkg.dependencies && pkg.dependencies[package]) {
-      pkg.dependencies[package] = `^${newVersion}`
+    if (pkg.dependencies && pkg.dependencies[packageName]) {
+      pkg.dependencies[packageName] = `^${newVersion}`
       await writePackageJson(packagePath, pkg)
       console.log(`Updated ${packagePath} to version ^${newVersion}`)
     } else {
-      console.error(`${packagePath} does not depend on ${package}`)
+      console.error(`${packagePath} does not depend on ${packageName}`)
     }
   }
 }

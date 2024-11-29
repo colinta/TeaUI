@@ -21,7 +21,7 @@ export function charWidth(str) {
 
   // added: ANSI formatter support
   // eslint-disable-next-line no-control-regex
-  if (!str.length || ansiRegex.test(str)) {
+  if (!str.length || ansiRegex().test(str)) {
     return 0
   }
 
@@ -365,16 +365,18 @@ export function words(input) {
     ({segment}) => segment,
   )
   const parts = segments.map(segment => {
+    let offset = segment.length
     while (
       ansiData.length &&
       strIndex + segment.length >= ansiData.at(0).start
     ) {
       const {start, ansi} = ansiData.shift()
-      const lhs = segment.slice(0, start)
-      const rhs = segment.slice(start)
+      const lhs = segment.slice(0, start - strIndex)
+      const rhs = segment.slice(start - strIndex)
       segment = lhs + ansi + rhs
-      strIndex += ansi.length
+      offset += ansi.length
     }
+    strIndex += offset
     return segment
   })
 
@@ -433,7 +435,7 @@ export function printableChars(str) {
  * Copied this (on 2025-11-23) from
  * https://github.com/chalk/ansi-regex/blob/main/index.js
  */
-const ansiRegex = (() => {
+function ansiRegex() {
   // Valid string terminator sequences are BEL, ESC\, and 0x9c
   const ST = '(?:\\u0007|\\u001B\\u005C|\\u009C)'
   const pattern = [
@@ -442,11 +444,11 @@ const ansiRegex = (() => {
   ].join('|')
 
   return new RegExp(pattern, 'g')
-})()
+}
 
 export function ansiLocations(input, includeLast) {
   // eslint-disable-next-line no-control-regex
-  const locations = [...input.matchAll(ansiRegex)].map(({0: match, index}) => ({
+  const locations = [...input.matchAll(ansiRegex())].map(({0: match, index}) => ({
     start: index,
     stop: index + match.length,
     ansi: match,
@@ -469,7 +471,7 @@ export function ansiLocations(input, includeLast) {
 
 export function removeAnsi(input) {
   // eslint-disable-next-line no-control-regex
-  return input.replaceAll(ansiRegex, '')
+  return input.replaceAll(ansiRegex(), '')
 }
 
 const combiningTable = [

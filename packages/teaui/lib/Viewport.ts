@@ -24,7 +24,8 @@ export class Viewport {
   #style: Style
 
   /**
-   * For modals, this offset points to the Rect of the view that presented the modal
+   * For modals, this is the Rect of the view that presented the modal, in absolute
+   * coordinates
    */
   parentRect: Rect
 

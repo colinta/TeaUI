@@ -6,7 +6,7 @@
     "Shawn Chen <meishangchen@gmail.com>",
     "npmjs.com/blessed"
   ],
-  "version": "1.2.0",
+  "version": "1.2.1",
   "license": "MIT",
   "preferGlobal": false,
   "repository": {
@@ -59,6 +59,7 @@
     "tsimp": "^2.0.12"
   },
   "ava": {
+    "clearScreen": true,
     "extensions": {
       "ts": "module"
     },
