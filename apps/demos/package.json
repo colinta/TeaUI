@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "build": "pnpm tsc",
-    "checksum": "node -e 'require(\"@teaui/shared\").main(\".\", \"build\")'",
+    "checksum": "pnpm check . 'pnpm build'",
     "demo": "pnpm checksum && cd .dist && node --enable-source-maps --",
     "clean": "rm -rf .dist/"
   },

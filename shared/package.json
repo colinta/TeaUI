@@ -1,12 +1,14 @@
 {
   "name": "@teaui/shared",
-  "main": "check.js",
+  "main": "main.js",
   "version": "1.1.4",
+  "type": "module",
   "files": [
+    "main.js",
     "check.js",
     "tsconfig.json"
   ],
   "bin": {
-    "check": "./check.js"
+    "check": "./main.js"
   }
 }

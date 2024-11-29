@@ -231,9 +231,6 @@ export class Text extends View {
     }
 
     const wrapped = wrap(lines, contentWidth)
-    console.log('=========== Text.ts at line 234 ===========')
-    console.log({wrapped})
-
     this.#wrappedLines = [contentWidth, wrapped]
     return wrapped
   }
