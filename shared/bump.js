@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import { readFile, writeFile } from 'fs/promises'
+import {readFile, writeFile} from 'fs/promises'
 
-const MAIN_PACKAGE = 'packages/teaui/package.json'
+const MAIN_PACKAGE = 'packages/core/package.json'
 const DEPENDENT_PACKAGES = [
   'shared/package.json',
   'packages/react/package.json',

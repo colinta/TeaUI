@@ -2,7 +2,7 @@
 
 I wanted a curses-style fullscreen application framework that could be powered by React.
 
-This repo is organized as a pnpm workspace. The main library is in `packages/teaui`, and the demo code is in `apps/demo`. There are also React and Preact renderers.
+This repo is organized as a pnpm workspace. The main library is in `packages/core`, and the demo code is in `apps/demo`. There are also React and Preact renderers.
 
 ### Demo: components
 
