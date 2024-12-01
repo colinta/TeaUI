@@ -1,6 +1,6 @@
 {
-  "name": "@teaui/react",
-  "description": "React Reconciler and renderer for TeaUI",
+  "name": "@teaui/cli",
+  "description": "CLI for @teaui packages",
   "author": "Colin T.A. Gray <colinta@colinta.com>",
   "contributors": [],
   "version": "1.2.1",
@@ -12,6 +12,9 @@
   },
   "homepage": "https://github.com/colinta/teaui",
   "main": ".dist/index.js",
+  "bin": {
+    "teaui": ".dist/bin.js"
+  },
   "types": ".dist/index.d.ts",
   "files": [
     ".dist/"
@@ -20,12 +23,11 @@
     "url": "http://github.com/colinta/teaui/issues"
   },
   "scripts": {
-    "prepublishOnly": "pnpm clean && pnpm tsc",
+    "prepublishOnly": "pnpm build",
     "clean": "rm -rf .dist/",
     "build": "pnpm clean && pnpm tsc"
   },
   "keywords": [
-    "react",
     "curses",
     "tui",
     "terminal",
@@ -33,7 +35,6 @@
     "terminal-ui"
   ],
   "tags": [
-    "react",
     "curses",
     "tui",
     "terminal"
@@ -41,16 +42,10 @@
   "engines": {
     "node": ">= 18.12.0"
   },
-  "peerDependencies": {
-    "react": "^18.2.0",
-    "react-reconciler": "^0.29.0"
-  },
   "dependencies": {
     "@teaui/core": "^1.2.1"
   },
   "devDependencies": {
-    "@types/react": "^18.2.39",
-    "@types/react-reconciler": "^0.28.8",
     "@teaui/shared": "workspace:*"
   }
 }

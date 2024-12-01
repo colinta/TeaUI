@@ -29,6 +29,7 @@
     "curses",
     "tui",
     "terminal",
+    "text-ui",
     "terminal-ui"
   ],
   "tags": [

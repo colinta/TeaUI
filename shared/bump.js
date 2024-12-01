@@ -5,6 +5,7 @@ import {readFile, writeFile} from 'fs/promises'
 const MAIN_PACKAGE = 'packages/core/package.json'
 const DEPENDENT_PACKAGES = [
   'shared/package.json',
+  'packages/teaui/package.json',
   'packages/react/package.json',
   'packages/preact/package.json',
 ]

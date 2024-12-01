@@ -37,7 +37,7 @@ importers:
     dependencies:
       '@teaui/core':
         specifier: workspace:*
-        version: link:../../packages/teaui
+        version: link:../../packages/core
     devDependencies:
       '@teaui/shared':
         specifier: workspace:*
@@ -47,7 +47,7 @@ importers:
     dependencies:
       '@teaui/core':
         specifier: workspace:*
-        version: link:../../packages/teaui
+        version: link:../../packages/core
       '@teaui/preact':
         specifier: workspace:*
         version: link:../../packages/preact
@@ -63,7 +63,7 @@ importers:
     dependencies:
       '@teaui/core':
         specifier: workspace:*
-        version: link:../../packages/teaui
+        version: link:../../packages/core
       '@teaui/react':
         specifier: workspace:*
         version: link:../../packages/react
@@ -78,42 +78,7 @@ importers:
         specifier: ^18.2.39
         version: 18.3.12
 
-  packages/preact:
-    dependencies:
-      '@teaui/core':
-        specifier: ^1.2.0
-        version: 1.2.0
-      preact:
-        specifier: ^10.24.3
-        version: 10.24.3
-    devDependencies:
-      '@teaui/shared':
-        specifier: workspace:*
-        version: link:../../shared
-
-  packages/react:
-    dependencies:
-      '@teaui/core':
-        specifier: ^1.1.5
-        version: 1.1.5
-      react:
-        specifier: ^18.2.0
-        version: 18.3.1
-      react-reconciler:
-        specifier: ^0.29.0
-        version: 0.29.2(react@18.3.1)
-    devDependencies:
-      '@teaui/shared':
-        specifier: workspace:*
-        version: link:../../shared
-      '@types/react':
-        specifier: ^18.2.39
-        version: 18.3.12
-      '@types/react-reconciler':
-        specifier: ^0.28.8
-        version: 0.28.8
-
-  packages/teaui:
+  packages/core:
     optionalDependencies:
       ansi-regex:
         specifier: latest
@@ -137,6 +102,51 @@ importers:
       tsimp:
         specifier: ^2.0.12
         version: 2.0.12(typescript@5.6.3)
+
+  packages/preact:
+    dependencies:
+      '@teaui/core':
+        specifier: ^1.2.1
+        version: 1.2.1
+      preact:
+        specifier: ^10.24.3
+        version: 10.24.3
+    devDependencies:
+      '@teaui/shared':
+        specifier: workspace:*
+        version: link:../../shared
+
+  packages/react:
+    dependencies:
+      '@teaui/core':
+        specifier: ^1.2.1
+        version: 1.2.1
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+      react-reconciler:
+        specifier: ^0.29.0
+        version: 0.29.2(react@18.3.1)
+    devDependencies:
+      '@teaui/shared':
+        specifier: workspace:*
+        version: link:../../shared
+      '@types/react':
+        specifier: ^18.2.39
+        version: 18.3.12
+      '@types/react-reconciler':
+        specifier: ^0.28.8
+        version: 0.28.8
+
+  packages/teaui:
+    dependencies:
+      '@teaui/core':
+        specifier: ^1.2.1
+        version: 1.2.1
+    devDependencies:
+      '@teaui/shared':
+        specifier: workspace:*
+        version: link:../../shared
 
   shared: {}
 
@@ -234,8 +244,8 @@ packages:
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
     engines: {node: '>=18'}
 
-  '@teaui/core@1.2.0':
-    resolution: {integrity: sha512-5F3VoWK2dPV/n2QpbD06j1qRzQw/tuTR9QegwNRiAGhFFhWZX5yOHywkjj0jUFbh2xrnSZqqnEI1qXjStiC+NA==}
+  '@teaui/core@1.2.1':
+    resolution: {integrity: sha512-ekMu5fsECU/QfBG7JXMIeljTYq5AkRK4/VW73CyoUe49ZpF26wl66K8jWHUH0RVVZFSSsNHMzthx0aEzJ0Sdcw==}
     engines: {node: '>= 18.12.0'}
 
   '@types/estree@1.0.6':
@@ -1455,7 +1465,7 @@ snapshots:
 
   '@sindresorhus/merge-streams@2.3.0': {}
 
-  '@teaui/core@1.2.0':
+  '@teaui/core@1.2.1':
     optionalDependencies:
       ansi-regex: 6.1.0
       blessed: 0.1.81
