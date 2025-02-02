@@ -6,7 +6,7 @@
     "Shawn Chen <meishangchen@gmail.com>",
     "npmjs.com/blessed"
   ],
-  "version": "1.2.1",
+  "version": "1.2.2",
   "license": "MIT",
   "preferGlobal": false,
   "repository": {
@@ -48,12 +48,6 @@
     "node": ">= 18.12.0"
   },
   "dependencies": {},
-  "optionalDependencies": {
-    "blessed": "latest",
-    "east-asian-width": "latest",
-    "eastasianwidth": "latest",
-    "ansi-regex": "latest"
-  },
   "devDependencies": {
     "@teaui/shared": "workspace:*",
     "ava": "^6.2.0",
