@@ -1,6 +1,7 @@
 {
   "scripts": {
     "demo": "pnpm -C apps/demos demo",
+    "publish": "pnpm -r publish --access public",
     "bump": "node shared/bump.js"
   },
   "devDependencies": {
