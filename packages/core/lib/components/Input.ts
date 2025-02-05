@@ -1095,7 +1095,7 @@ function isAccentChar(char: string) {
 }
 
 const ACCENTS: {[T in string]?: {[U in string]?: string}} = {
-  '`': {
+  '‵': {
     A: 'À',
     E: 'È',
     I: 'Ì',
@@ -1241,7 +1241,7 @@ const ACCENTS: {[T in string]?: {[U in string]?: string}} = {
   },
 }
 const ACCENT_KEYS: {[T in string]: string} = {
-  'M-a': '`',
+  'M-a': '‵',
   'M-c': '¸',
   'M-e': '´',
   'M-i': 'ˆ',
