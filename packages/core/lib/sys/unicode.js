@@ -85,11 +85,6 @@ export function charWidth(str) {
     (0xff01 <= point && point <= 0xff60) ||
     (0xffe0 <= point && point <= 0xffe6)
   ) {
-    if (str === '◼︎' || str === '☐') {
-      console.log('=========== unicode.js at line 83 ===========')
-      console.log({width: 2, length: str.length, str, point})
-    }
-
     return 2
   }
 
@@ -133,11 +128,6 @@ export function charWidth(str) {
     (0x2b740 <= point && point <= 0x2fffd) ||
     (0x30000 <= point && point <= 0x3fffd)
   ) {
-    if (str === '◼︎' || str === '☐') {
-      console.log('=========== unicode.js at line 131 ===========')
-      console.log({width: 2, length: str.length, str, point})
-    }
-
     return 2
   }
 
@@ -320,18 +310,8 @@ export function charWidth(str) {
       (0xf0000 <= point && point <= 0xffffd) ||
       (0x100000 <= point && point <= 0x10fffd)
     ) {
-      if (str === '◼︎' || str === '☐') {
-        console.log('=========== unicode.js at line 318 ===========')
-        console.log({width: 2, length: str.length, str, point})
-      }
-
       return +process.env.NCURSES_CJK_WIDTH || 1
     }
-  }
-
-  if (str === '◼︎' || str === '☐') {
-    console.log('=========== unicode.js at line 327 ===========')
-    console.log({width: 1, length: str.length, str, point})
   }
 
   return 1
