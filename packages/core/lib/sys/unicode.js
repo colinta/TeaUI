@@ -27,6 +27,17 @@ export function charWidth(str) {
 
   // added: Emoji support
   if (str.length > 1 && /^\p{Extended_Pictographic}/u.test(str)) {
+    // added: whitelist? ug.
+    if (
+      str === '▫️' ||
+      str === '◻️' ||
+      str === '◼︎' ||
+      str === '▪️' ||
+      str === '◼️'
+    ) {
+      return 1
+    }
+
     return 2
   }
 
@@ -74,6 +85,11 @@ export function charWidth(str) {
     (0xff01 <= point && point <= 0xff60) ||
     (0xffe0 <= point && point <= 0xffe6)
   ) {
+    if (str === '◼︎' || str === '☐') {
+      console.log('=========== unicode.js at line 83 ===========')
+      console.log({width: 2, length: str.length, str, point})
+    }
+
     return 2
   }
 
@@ -117,6 +133,11 @@ export function charWidth(str) {
     (0x2b740 <= point && point <= 0x2fffd) ||
     (0x30000 <= point && point <= 0x3fffd)
   ) {
+    if (str === '◼︎' || str === '☐') {
+      console.log('=========== unicode.js at line 131 ===========')
+      console.log({width: 2, length: str.length, str, point})
+    }
+
     return 2
   }
 
@@ -299,8 +320,18 @@ export function charWidth(str) {
       (0xf0000 <= point && point <= 0xffffd) ||
       (0x100000 <= point && point <= 0x10fffd)
     ) {
+      if (str === '◼︎' || str === '☐') {
+        console.log('=========== unicode.js at line 318 ===========')
+        console.log({width: 2, length: str.length, str, point})
+      }
+
       return +process.env.NCURSES_CJK_WIDTH || 1
     }
+  }
+
+  if (str === '◼︎' || str === '☐') {
+    console.log('=========== unicode.js at line 327 ===========')
+    console.log({width: 1, length: str.length, str, point})
   }
 
   return 1
@@ -402,10 +433,6 @@ export function printableChars(str) {
     return [str]
   }
 
-  if (str.length === 2) {
-    return [...str]
-  }
-
   const chars = []
   let locations = ansiLocations(str, true)
   let prevIndex = 0
@@ -448,11 +475,13 @@ function ansiRegex() {
 
 export function ansiLocations(input, includeLast) {
   // eslint-disable-next-line no-control-regex
-  const locations = [...input.matchAll(ansiRegex())].map(({0: match, index}) => ({
-    start: index,
-    stop: index + match.length,
-    ansi: match,
-  }))
+  const locations = [...input.matchAll(ansiRegex())].map(
+    ({0: match, index}) => ({
+      start: index,
+      stop: index + match.length,
+      ansi: match,
+    }),
+  )
 
   if (
     includeLast &&
