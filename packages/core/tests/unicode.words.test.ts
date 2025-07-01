@@ -21,7 +21,11 @@ function simpleWords(input: string) {
 
 specs.push(['one word', 'word', simpleWords('word')])
 specs.push(['two words', 'hello dolly', simpleWords('hello dolly')])
-specs.push(['ansi+word', '\x1b[0mhello', [[['\x1b[0m', 'h', 'e', 'l', 'l', 'o'], 0]])
+specs.push([
+  'ansi+word',
+  '\x1b[0mhello',
+  [[['\x1b[0m', 'h', 'e', 'l', 'l', 'o'], 0]],
+])
 
 for (const [desc, input, expected] of specs) {
   test(`${desc}`, t => {
