@@ -57,7 +57,6 @@ export class Screen {
     program.clear()
     program.showCursor()
     program.normalBuffer()
-    flushLogs()
     setTimeout(() => {
       process.exit(0)
     }, 0)
@@ -201,7 +200,6 @@ export class Screen {
     this.rootView.moveToScreen(undefined)
 
     this.#onExit?.()
-    flushLogs()
   }
 
   /**
