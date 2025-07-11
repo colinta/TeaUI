@@ -3,8 +3,8 @@
   "main": ".dist/index.js",
   "license": "",
   "scripts": {
-    "build": "tsc",
-    "run": "build && node --enable-source-maps -- .dist/index.js",
+    "build": "$npm_execpath tsc",
+    "start": "$npm_execpath build && node --enable-source-maps -- .dist/index.js",
     "clean": "rm -rf .dist/"
   },
   "private": true,

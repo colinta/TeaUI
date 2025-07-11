@@ -7,7 +7,7 @@
     ".dist",
     "**/*.test.ts",
     "**/*.test.tsx",
-    "lib/frameworks/**/*",
+    "frameworks/**/*",
     "tests"
   ],
   "compilerOptions": {
