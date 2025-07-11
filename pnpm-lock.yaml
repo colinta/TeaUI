@@ -78,20 +78,17 @@ importers:
         specifier: ^18.2.39
         version: 18.3.12
 
+  packages/cli:
+    dependencies:
+      '@teaui/core':
+        specifier: ^1.2.1
+        version: 1.2.1
+    devDependencies:
+      '@teaui/shared':
+        specifier: workspace:*
+        version: link:../../shared
+
   packages/core:
-    optionalDependencies:
-      ansi-regex:
-        specifier: latest
-        version: 6.1.0
-      blessed:
-        specifier: latest
-        version: 0.1.81
-      east-asian-width:
-        specifier: latest
-        version: 0.1.1
-      eastasianwidth:
-        specifier: latest
-        version: 0.3.0
     devDependencies:
       '@teaui/shared':
         specifier: workspace:*
@@ -106,8 +103,8 @@ importers:
   packages/preact:
     dependencies:
       '@teaui/core':
-        specifier: ^1.2.1
-        version: 1.2.1
+        specifier: workspace:*
+        version: link:../core
       preact:
         specifier: ^10.24.3
         version: 10.24.3
@@ -119,8 +116,8 @@ importers:
   packages/react:
     dependencies:
       '@teaui/core':
-        specifier: ^1.2.1
-        version: 1.2.1
+        specifier: workspace:*
+        version: link:../core
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -137,16 +134,6 @@ importers:
       '@types/react-reconciler':
         specifier: ^0.28.8
         version: 0.28.8
-
-  packages/teaui:
-    dependencies:
-      '@teaui/core':
-        specifier: ^1.2.1
-        version: 1.2.1
-    devDependencies:
-      '@teaui/shared':
-        specifier: workspace:*
-        version: link:../../shared
 
   shared: {}
 

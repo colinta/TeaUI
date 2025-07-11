@@ -418,7 +418,7 @@ export function render(screen: Screen, window: Window, rootNode: ReactNode) {
 
 export async function run(
   component: ReactNode,
-  options?: ScreenOptions,
+  options: ScreenOptions = {},
 ): Promise<[Screen, Window, React.ReactNode]> {
   const window = new Window()
   const start = await Screen.start(window, options)

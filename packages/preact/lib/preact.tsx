@@ -415,7 +415,10 @@ const dom = createRendererDom<View>({
 Object.assign(global, {document: {}})
 Object.assign(document, dom)
 
-export async function run(component: React.ReactNode, options?: ScreenOptions) {
+export async function run(
+  component: React.ReactNode,
+  options: ScreenOptions = {},
+) {
   const root = dom.createRoot()
 
   render(component, root as any)
