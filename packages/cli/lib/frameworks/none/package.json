@@ -1,0 +1,17 @@
+{
+  "name": "{{name}}",
+  "main": ".dist/index.js",
+  "license": "",
+  "scripts": {
+    "build": "tsc",
+    "run": "build && node --enable-source-maps -- .dist/index.js",
+    "clean": "rm -rf .dist/"
+  },
+  "private": true,
+  "dependencies": {
+    "@teaui/core": "latest"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}
