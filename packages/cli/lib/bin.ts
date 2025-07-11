@@ -17,14 +17,18 @@ program
   .command('create')
   .description('Create a new TeaUI application')
   .argument('<name>', 'Name of the application')
-  .requiredOption('-f, --framework <framework>', 'Framework to use', value => {
-    if (!['react', 'preact', 'none'].includes(value)) {
-      throw new Error(
-        `Invalid framework: ${value}. Must be one of: react, preact, none`,
-      )
-    }
-    return value
-  })
+  .requiredOption(
+    '-f, --framework <framework> (none, react, or preact)',
+    'Framework to use',
+    value => {
+      if (!['react', 'preact', 'none'].includes(value)) {
+        throw new Error(
+          `Invalid framework: ${value}. Must be one of: react, preact, none`,
+        )
+      }
+      return value
+    },
+  )
   .action(async (name: string, options: {framework: string}) => {
     try {
       create(name, options)
