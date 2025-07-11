@@ -418,11 +418,10 @@ export function render(screen: Screen, window: Window, rootNode: ReactNode) {
 
 export async function run(
   component: ReactNode,
-  options: ScreenOptions = {},
+  options?: Partial<ScreenOptions>,
 ): Promise<[Screen, Window, React.ReactNode]> {
   const window = new Window()
-  const start = await Screen.start(window, options)
-  const [screen, _] = start
+  const [screen, _] = await Screen.start(window, options)
 
   render(screen, window, component)
 
