@@ -1,0 +1,19 @@
+{
+  "include": ["./"],
+  "exclude": [".dist/"],
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "declaration": true,
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "outDir": ".dist",
+    "jsx": "react"
+  }
+}
