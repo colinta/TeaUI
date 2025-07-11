@@ -8,6 +8,7 @@ const DEPENDENT_PACKAGES = [
   'packages/core/package.json',
   'packages/react/package.json',
   'packages/preact/package.json',
+  'packages/cli/package.json',
 ]
 
 async function readPackageJson(filePath) {
