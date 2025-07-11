@@ -142,11 +142,11 @@ export class ConsoleLog extends Log {
   }
 
   didMount(screen: Screen) {
-    addLogListener(this.invalidateSize)
+    addLogListener(this.invalidateSize.bind(this))
     super.didMount(screen)
   }
   didUnmount(screen: Screen) {
-    removeLogListener(this.invalidateSize)
+    removeLogListener(this.invalidateSize.bind(this))
     super.didUnmount(screen)
   }
 
