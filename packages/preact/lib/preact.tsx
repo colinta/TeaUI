@@ -417,12 +417,12 @@ Object.assign(document, dom)
 
 export async function run(
   component: React.ReactNode,
-  options: ScreenOptions = {},
-) {
+  options?: Partial<ScreenOptions>,
+): Promise<[Screen, Window, React.ReactNode]> {
   const root = dom.createRoot()
 
   render(component, root as any)
   const window = root.node
-  const start = await Screen.start(window, options)
-  const [screen, _] = start
+  const [screen, _] = await Screen.start(window, options)
+  return [screen, window, component]
 }

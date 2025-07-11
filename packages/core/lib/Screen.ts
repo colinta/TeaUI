@@ -67,11 +67,7 @@ export class Screen {
 
   static async start<T extends View>(
     viewConstructor: T | ViewConstructor<T>,
-    opts: ScreenOptions,
-  ): Promise<[Screen, BlessedProgram, T]>
-
-  static async start<T extends View>(
-    viewConstructor: T | ViewConstructor<T>,
+    opts?: Partial<ScreenOptions>,
   ): Promise<[Screen, BlessedProgram, T]>
 
   /**
@@ -84,8 +80,14 @@ export class Screen {
    */
   static async start<T extends View = Window>(
     viewConstructor: T | ViewConstructor<T> = new Window() as unknown as T,
-    opts: ScreenOptions = {quitChar: 'c'},
+    opts?: Partial<ScreenOptions>,
   ): Promise<[Screen, BlessedProgram, T]> {
+    opts ??= {}
+    opts = {
+      quitChar: 'c',
+      ...opts,
+    }
+
     const program = blessedProgram({
       useBuffer: true,
       tput: true,
@@ -128,7 +130,7 @@ export class Screen {
       screen.trigger({type: 'resize'})
     })
 
-    if (opts?.quitChar) {
+    if (opts.quitChar) {
       program.key(`C-${opts.quitChar}`, () => {
         screen.exit()
       })
