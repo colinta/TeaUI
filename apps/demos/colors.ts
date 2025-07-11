@@ -87,66 +87,60 @@ const update = () => {
 update()
 
 demo(
-  Stack.right({
-    children: [
-      [
-        'flex1',
-        Stack.down({
-          children: [
-            ['flex1', swatch],
-            Stack.right([rgbText1, ansiText]),
-            rgbText2,
-          ],
-        }),
-      ],
-      [
-        'flex1',
-        Stack.right({
-          children: [
-            new Slider({
-              direction: 'vertical',
-              range: [0, 255],
-              value: rgb[0],
-              buttons: true,
-              step: 1,
-              border: true,
-              onChange(value) {
-                rgb[0] = Math.round(value)
-                update()
-              },
-            }),
-            new Slider({
-              theme: 'green',
-              direction: 'vertical',
-              range: [0, 255],
-              value: rgb[1],
-              buttons: true,
-              border: true,
-              step: 1,
-              onChange(value) {
-                rgb[1] = Math.round(value)
-                update()
-              },
-            }),
-            new Slider({
-              theme: 'blue',
-              direction: 'vertical',
-              range: [0, 255],
-              value: rgb[2],
-              buttons: true,
-              border: true,
-              step: 1,
-              onChange(value) {
-                rgb[2] = Math.round(value)
-                update()
-              },
-            }),
-            redInput,
-            greenInput,
-            blueInput,
-          ],
-        }),
-      ],
+  Stack.right([
+    [
+      'flex1',
+      Stack.down([
+        ['flex1', swatch],
+        Stack.right([rgbText1, ansiText]),
+        rgbText2,
+      ]),
     ],
-  }),
+    [
+      'flex1',
+      Stack.right([
+        new Slider({
+          direction: 'vertical',
+          range: [0, 255],
+          value: rgb[0],
+          buttons: true,
+          step: 1,
+          border: true,
+          onChange(value) {
+            rgb[0] = Math.round(value)
+            update()
+          },
+        }),
+        new Slider({
+          theme: 'green',
+          direction: 'vertical',
+          range: [0, 255],
+          value: rgb[1],
+          buttons: true,
+          border: true,
+          step: 1,
+          onChange(value) {
+            rgb[1] = Math.round(value)
+            update()
+          },
+        }),
+        new Slider({
+          theme: 'blue',
+          direction: 'vertical',
+          range: [0, 255],
+          value: rgb[2],
+          buttons: true,
+          border: true,
+          step: 1,
+          onChange(value) {
+            rgb[2] = Math.round(value)
+            update()
+          },
+        }),
+        redInput,
+        greenInput,
+        blueInput,
+      ]),
+    ],
+  ]),
 )
