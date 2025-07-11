@@ -27,6 +27,10 @@ type ViewConstructor<T extends View> = (
   program: BlessedProgram,
 ) => T | Promise<T>
 
+export interface ScreenOptions {
+  quitChar?: 'c' | 'q' | '' | undefined | false
+}
+
 export class Screen {
   #program: SGRTerminal
   #onExit?: () => void
@@ -39,41 +43,48 @@ export class Screen {
   #mouseManager = new MouseManager()
   #tickManager = new TickManager(() => this.render())
 
+  /**
+   * A helper function that puts the terminal into a "known good" state. I use this
+   * during debugging, if the app crashes and I need to get the terminal CLI working
+   * again.
+   */
   static reset() {
     const program = blessedProgram({
       useBuffer: true,
       tput: true,
     })
 
-    program.alternateBuffer()
-    program.enableMouse()
-    program.setMouse({sendFocus: true}, true)
     program.clear()
-    program.disableMouse()
     program.showCursor()
     program.normalBuffer()
     flushLogs()
-    process.exit(0)
+    setTimeout(() => {
+      process.exit(0)
+    }, 0)
   }
 
   static async start(): Promise<[Screen, BlessedProgram, Window]>
 
   static async start<T extends View>(
     viewConstructor: T | ViewConstructor<T>,
-    opts: {
-      quitChar?: 'c' | 'q' | '' | undefined | false
-    },
+    opts: ScreenOptions,
   ): Promise<[Screen, BlessedProgram, T]>
 
   static async start<T extends View>(
     viewConstructor: T | ViewConstructor<T>,
   ): Promise<[Screen, BlessedProgram, T]>
 
+  /**
+   * Start the TeaUI application. Expects a root node (I recommend Window, it
+   * consumes all the available screen space) *or* an async function that creates the
+   * root node, and accepts a small amount of options.
+   *
+   * @return the Screen, the Program that controls the terminal, and the root node
+   * instance.
+   */
   static async start<T extends View = Window>(
     viewConstructor: T | ViewConstructor<T> = new Window() as unknown as T,
-    opts: {
-      quitChar?: 'c' | 'q' | '' | undefined | false
-    } = {quitChar: 'c'},
+    opts: ScreenOptions = {quitChar: 'c'},
   ): Promise<[Screen, BlessedProgram, T]> {
     const program = blessedProgram({
       useBuffer: true,
@@ -170,18 +181,36 @@ export class Screen {
     }
   }
 
+  /**
+   * Called from Screen.start(). Don't call this yourself unless you wanted
+   * to construct your own 'program' (using blessed). I recommend starting with a
+   * copy of the implementation of Screen.start.
+   */
   start() {
     this.rootView.moveToScreen(this)
     this.render()
   }
 
-  exit() {
+  /**
+   * Puts the screen back in normal terminal mode, restores the normal buffer
+   */
+  stop() {
     this.#tickManager.stop()
     this.rootView.moveToScreen(undefined)
 
     this.#onExit?.()
     flushLogs()
-    process.exit(0)
+  }
+
+  /**
+   * Stops (putting the screen back in normal mode and buffer) and exits by emitting
+   * process.exit(0)
+   */
+  exit() {
+    this.stop()
+    setTimeout(() => {
+      process.exit(0)
+    }, 0)
   }
 
   trigger(event: SystemEvent) {
