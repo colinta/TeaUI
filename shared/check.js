@@ -29,7 +29,7 @@ async function findFiles(startPath) {
         await traverse(fullPath)
       } else if (
         fileStat.isFile() &&
-        ['.ts', '.js'].some(ext => item.endsWith(ext))
+        ['.ts', '.tsx', '.js'].some(ext => item.endsWith(ext))
       ) {
         files.push(fullPath)
       }
@@ -65,8 +65,7 @@ export async function compare(directory) {
       if (oldSum.trim() === newSum) {
         return 0
       }
-    } catch (error) {
-    }
+    } catch (error) {}
 
     try {
       // Remove old sum file if it exists
@@ -107,7 +106,7 @@ export function main(directory, command) {
       } else {
         console.log('Changes detected')
         execSync(command, {stdio: 'inherit'})
-    }
+      }
       process.exit(0)
     })
     .catch(error => {

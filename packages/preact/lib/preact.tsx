@@ -20,6 +20,7 @@ import {
   ToggleGroup as WrToggleGroup,
   Input as WrInput,
   Screen,
+  type ScreenOptions,
   Scrollable as WrScrollable,
   Separator as WrSeparator,
   Slider as WrSlider,
@@ -414,11 +415,11 @@ const dom = createRendererDom<View>({
 Object.assign(global, {document: {}})
 Object.assign(document, dom)
 
-export async function run(component: React.ReactNode) {
+export async function run(component: React.ReactNode, options?: ScreenOptions) {
   const root = dom.createRoot()
 
   render(component, root as any)
   const window = root.node
-  const start = await Screen.start(window)
+  const start = await Screen.start(window, options)
   const [screen, _] = start
 }

@@ -26,11 +26,12 @@ function bumpVersion(version, type) {
     case 'major':
       return `${major + 1}.0.0`
     case 'minor':
-      return `${major}.${minor + 1}.0`
+      return `${major}.${minor + 1}.${patch}`
+    case 'patch':
     case 'bug':
       return `${major}.${minor}.${patch + 1}`
     default:
-      throw new Error('Invalid bump type. Use "major", "minor", or "bug"')
+      throw new Error('Invalid bump type. Use "major", "minor", or "patch"')
   }
 }
 
@@ -43,8 +44,6 @@ async function updateDependentPackages(newVersion, packageName) {
       pkg.dependencies[packageName] = `^${newVersion}`
       await writePackageJson(packagePath, pkg)
       console.log(`Updated ${packagePath} to version ^${newVersion}`)
-    } else {
-      console.error(`${packagePath} does not depend on ${packageName}`)
     }
   }
 }
@@ -52,8 +51,8 @@ async function updateDependentPackages(newVersion, packageName) {
 async function main() {
   const bumpType = process.argv[2]
 
-  if (!['major', 'minor', 'bug'].includes(bumpType)) {
-    console.error('Please specify bump type: "major" "minor" or "bug"')
+  if (!['major', 'minor', 'bug', 'patch'].includes(bumpType)) {
+    console.error('Please specify bump type: "major" "minor" or "patch"')
     process.exit(1)
   }
 

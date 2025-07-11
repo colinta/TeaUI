@@ -20,6 +20,7 @@ import {
   H6,
   Input,
   Screen,
+  type ScreenOptions,
   Scrollable,
   Separator,
   Slider,
@@ -417,9 +418,10 @@ export function render(screen: Screen, window: Window, rootNode: ReactNode) {
 
 export async function run(
   component: ReactNode,
+  options?: ScreenOptions,
 ): Promise<[Screen, Window, React.ReactNode]> {
   const window = new Window()
-  const start = await Screen.start(window)
+  const start = await Screen.start(window, options)
   const [screen, _] = start
 
   render(screen, window, component)
