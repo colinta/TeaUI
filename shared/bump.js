@@ -40,11 +40,15 @@ async function updateDependentPackages(newVersion, packageName) {
     const pkg = await readPackageJson(packagePath)
     pkg.version = newVersion
 
-    if (pkg.dependencies && pkg.dependencies[packageName]) {
+    if (
+      pkg.dependencies &&
+      pkg.dependencies[packageName] &&
+      pkg.dependencies[packageName].startsWith('^')
+    ) {
       pkg.dependencies[packageName] = `^${newVersion}`
-      await writePackageJson(packagePath, pkg)
-      console.log(`Updated ${packagePath} to version ^${newVersion}`)
     }
+    await writePackageJson(packagePath, pkg)
+    console.log(`Updated ${packagePath} to version ^${newVersion}`)
   }
 }
 
